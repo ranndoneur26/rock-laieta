@@ -48,8 +48,8 @@ export function Hero() {
         transition={{ duration: 1.2, ease: "easeOut" }}
         className="absolute right-[-12%] top-1/2 hidden -translate-y-1/2 md:block"
       >
-        <div className="vinyl-grooves relative aspect-square w-[460px] rounded-full border border-gold/25 bg-background shadow-[0_0_120px_-20px] shadow-gold/30">
-          <div className="absolute left-1/2 top-1/2 h-28 w-28 -translate-x-1/2 -translate-y-1/2 animate-spin-vinyl rounded-full border-4 border-background bg-primary">
+        <div className="vinyl-grooves relative aspect-square w-[460px] rounded-full border border-[#64445E]/40 bg-background shadow-[0_0_120px_-20px] shadow-[#80296F]/30">
+          <div className="absolute left-1/2 top-1/2 h-28 w-28 -translate-x-1/2 -translate-y-1/2 animate-spin-vinyl rounded-full border-4 border-background bg-[#80296F]">
             <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-background" />
           </div>
         </div>
@@ -65,7 +65,7 @@ export function Hero() {
           transition={{ duration: 0.6 }}
           className="flex items-center gap-3"
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.25em] text-gold">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.25em] text-white">
             <Disc3 className="h-3.5 w-3.5" /> {moviment.periode}
           </span>
           <span className="hidden items-center gap-1 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-foreground/60 sm:inline-flex">
@@ -80,7 +80,7 @@ export function Hero() {
           className="mt-6 text-display text-7xl leading-[0.85] text-foreground sm:text-8xl md:text-[9rem]"
         >
           {moviment.titol}
-          <span className="block text-transparent [-webkit-text-stroke:1.5px_var(--accent-gold)]">
+          <span className="block text-transparent [-webkit-text-stroke:1.5px_#ffffff]">
             {moviment.subtitol.split("·")[0].trim()}
           </span>
         </motion.h1>
@@ -107,7 +107,7 @@ export function Hero() {
                 .getElementById("manifest")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+            className="group inline-flex items-center gap-2 rounded-full bg-[#80296F] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#723667]"
           >
             Comença el viatge
             <ArrowDown className="h-4 w-4 transition group-hover:translate-y-0.5" />
@@ -118,7 +118,7 @@ export function Hero() {
                 .getElementById("artistes")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="inline-flex items-center gap-2 rounded-full border border-foreground/30 px-6 py-3 text-sm font-semibold text-foreground transition hover:border-gold hover:text-gold"
+            className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#495F4D] hover:text-white"
           >
             Explora els artistes
           </button>
@@ -147,7 +147,7 @@ export function Hero() {
                     key={n}
                     className="font-mono text-sm uppercase tracking-[0.2em] text-foreground/60"
                   >
-                    {n} <span className="mx-4 text-gold/50">✦</span>
+                    {n} <span className="mx-4 text-[#80296F]/60">✦</span>
                   </span>
                 ))}
               </div>
@@ -166,7 +166,7 @@ export function Hero() {
             <motion.span
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 1.6, repeat: Infinity }}
-              className="h-1.5 w-1.5 rounded-full bg-gold"
+              className="h-1.5 w-1.5 rounded-full bg-[#80296F]"
             />
           </div>
         </div>
