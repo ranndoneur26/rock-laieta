@@ -14,7 +14,7 @@ export function DocumentsVisuals() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
-          index="11"
+          index="13"
           kicker="Doc. Visuals"
           title="Documents visuals"
           description="Documentals i concerts en imatge: la memòria audiovisual del moviment. Podeu reproduir-los aquí o obrir-los directament a la plataforma."

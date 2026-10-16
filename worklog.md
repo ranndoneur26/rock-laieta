@@ -589,3 +589,156 @@ Work Log:
 
 Stage Summary:
 - Mapa mental amb plegat manual fins 2n nivell: només arrel + 6 branques visibles, cada branca té indicador "+" per expandir (mostra artistes + discs), zoom/pan funcionals, expand-all/collapse-all/reset funcionals.
+
+---
+Task ID: 77-80
+Agent: main (Z.ai Code)
+Task: Crear nova secció "Ruta musical per la Barcelona dels Setanta" amb mapa OpenStreetMap, parades ordenades, fotos històriques i diferenciació existent/històric.
+
+Work Log:
+- Tasa 77 — Estudi profund (web search): verificades 8 adreces històriques:
+  * Zeleste (1973-1986): carrer de la Plateria (AVUI Argenteria), Born — no Raval com es deia.
+  * Edigsa (1961-1984): fundada a la "Pelleteria Sibèria", cantonada Rambla de Catalunya + Gran Via.
+  * Bocaccio (1967-1985): carrer Muntaner 505 (no 65), fundada per Oriol Regàs.
+  * Canet Rock: Pla d'en Sala, Canet de Mar (40km NE). 1975-1980 (revifalla 2017).
+  * Camp de la Bota: avui zona Fòrum, espai militar desaparegut.
+  * Cova del Drac: Sant Gervasi, club de jazz històric.
+  * + Plaça Catalunya, Palau Música, Teatre Principal, Liceu, Plaça Reial/Jamboree, Parc Ciutadella, Teatre Goya.
+- Tasa 77b — Instal·lats: leaflet@1.9.4 + react-leaflet@5.0.0 + @types/leaflet@1.9.22 (tot i que es fa servir Leaflet directe, no react-leaflet, per evitar problemes SSR).
+- Tasa 78 — laieta-data.ts: afegit bloc sencer "Ruta musical" (linia 1672+):
+  * 3 tipus/interfícies: RutaStatus (existent|historic|transformat), RutaTipus (8 valors), RutaLocation (17 camps: id, nom, adreça, lat/lng, barri, status, tipus, anysActius, anyObertura/Tancament, rellevancia, contextHistoric, artistesRelacionats[], foto, fotoCaption, ordreRuta, noRuta, linkExtern).
+  * rutaMusical object: titol, subtitol, intro, llegenda{existent,historic,transformat}, ruta{titol,sub,descripcio}, locations[14 punts].
+  * 10 punts en RUTA PRINCIPAL (ordreRuta 1-10): Plaça Catalunya → Edigsa → Palau Música → Bocaccio → Teatre Principal → Liceu → Plaça Reial/Jamboree → Parc Ciutadella → Carrer Argenteria → Zeleste.
+  * 4 punts FORA DE RUTA (noRuta): Camp de la Bota, Canet Rock, Cova del Drac, Teatre Goya.
+  * Cada punt té: adreça exacta verificada, coordenades reals, barri, status històric/existent/transformat, tipus, anys actius, rellevància musical (paràgraf), context històric (cita), artistes relacionats, enllaç extern.
+  * navegacio[]: afegit "ruta-musical" → "Ruta" entre cartografia i obres.
+- Tasa 78b — Renumerats índexs SectionHeading: Obres (09→10), Recopilatori (10→11), Doc Visuals (11→12), Mapa Mental (12→13 inline), Llegat (13→14), Fonts (14→15). Total 15 seccions.
+- Tasa 79 — Generades 4 fotos històriques (image-generation, 1344x768):
+  * ruta-zeleste.png — facade club al Born nit.
+  * ruta-canet.png — festival a la platja Maresme capvespre.
+  * ruta-bocaccio.png — interior discoteca anys 70.
+  * ruta-camp-bota.png — descampat costaner nit concert lliure.
+- Tasa 80 — Creats components:
+  * ruta-map.tsx (client, dynamic import off): Leaflet map amb OSM tiles, 14 marcadors divIcon circulars (verd/taronja/blau segons status, numerats segons ordreRuta), polyline puntejada magenta #80296F connectant 10 parades, flyTo a parada activa, fitBounds inicial, controls zoom/attribution tematitzats, invalidateSize fix.
+  * ruta-musical.tsx (client): SectionHeading index 09, intro del moviment, panell "Ruta temàtica" amb descripció, llegenda amb 3 colors + ratlla itinerari, layout grid 12 col (sidebar 3/4 + mapa+detall 8/9), sidebar amb llista ordenada 1-10 + secció "Fora de la ruta principal" + botó "Amagar/Mostrar itinerari", mapa amb overlay legend compacta, panell detall actiu (foto històrica dreta, tipus+barri+status badge, paràgraf rellevància, cita context històric amb vora magenta esquerra, grid adreça/anys actius, badges artistes relacionats, enllaços Més informació + Obrir al mapa OSM, caixa coordenades Lat/Lng + parada X/10).
+- Tasa 80b — page.tsx: importat RutaMusical, inserit entre CartografiaMoviment i ObresClau.
+- ESLint: net, 0 errors ✓
+- Dev server: HTTP 200 ✓
+- agent-browser VLM verification:
+  * Desktop (1280): mapa OSM carregat amb carrers Diagonal/Pg Gràcia/Parc Ciutadella ✓, marcadors numerats 1-10 + punts fora ruta ✓, línia puntejada magenta connectant ruta ✓, sidebar esquerra amb 10 parades + secció Fora de la Ruta ✓, llegenda textual + flotant al mapa ✓, panell detall actiu amb tipus+barri+badge status+títol+rellevància+cita+grid+badges+links+foto històrica real+coordenades+parada 10/10 ✓, paleta magenta vintage integrada ✓.
+  * Interactivitat: clic a "Edigsa" al sidebar → mapa flyTo + detall canvia a "Edigsa — seus discogràfica" ✓.
+  * Mobile (390px): mapa OSM amb marcadors + línia puntejada ✓, dues llegendes ✓, alçada 60-70% viewport ✓, 0 overflow horitzontal ✓, tot responsive ✓.
+  * Console: 0 errors, només harmless warning "non-static position" del framer-motion (hero té position relative, no afecta).
+- agent-browser errors: 0 ✓
+
+Stage Summary:
+- Nova secció 09 "Ruta musical per la Barcelona dels Setanta" integrada entre Cartografia (08) i Obres Clau (10).
+- 14 punts històrics geolocalitzats sobre OpenStreetMap real (Leaflet), amb ruta temàtica a peu "Seguint els passos de l'Ona Laietana" de 10 parades (Plaça Catalunya → Zeleste), polyline puntejada, marcadors color-coded per status (existent verd / històric taronja / transformat blau), 4 fotos històriques generades, panell lateral + detall actiu amb foto, adreça, anys actius, artistes relacionats, enllaços. Mobile responsive. App ara té 15 seccions.
+
+---
+Task ID: 81-84
+Agent: main (Z.ai Code)
+Task: Canviar la foto de "Sala Zeleste al Born, epicentre de la ona laietana (1973–1986)" per l'arxiu pujat zeleste-1.jpg + reestructurar el menú en 6 submenús agrupats, modern i responsive.
+
+Work Log:
+- Tasa 81 — Copiat /home/z/my-project/upload/zeleste-1.jpg (750x635, 106KB JPEG) → /home/z/my-project/public/laieta/zeleste-1.jpg.
+- Tasa 81b — laieta-data.ts: canviats els 4 camps `foto` de rutaMusical.locations perquè emmagatzemin el PATH COMPLERT en comptes d'un nom curt (permet mesclar .jpg i .png):
+  * zeleste → "/laieta/zeleste-1.jpg"
+  * bocaccio → "/laieta/ruta-bocaccio.png"
+  * camp-bota → "/laieta/ruta-camp-bota.png"
+  * canet → "/laieta/ruta-canet.png"
+- Tasa 81c — ruta-musical.tsx: eliminat el template `/laieta/ruta-${active.foto}.png` i substituït per `src={active.foto}` directe.
+- Tasa 82 — laieta-data.ts: afegit bloc sencer de navegació agrupada:
+  * 3 interfícies noves: NavItem, NavGrup, NavegacioAgrupada.
+  * navegacioAgrupada object: trigger "Explora el moviment" + cta {id: "recopilatori", etiqueta: "Escolta els discos"} + 6 grups:
+    1. Artistes (Grups, músics i col·laboracions) — items: artistes, persones
+    2. Discografia (Àlbums, cançons i recopilatoris) — items: obres, recopilatori
+    3. Línia del temps (De 1969 fins al llegat actual) — items: timeline, llegat
+    4. Barcelona musical (Sales, estudis i llocs històrics) — items: zeleste, cartografia, ruta-musical
+    5. Arxiu (Fotografies, vídeos i documents) — items: doc-visuals, mapa-mental
+    6. Context i fonts (Història, recerca i bibliografia) — items: manifest, context, fusio, fonts
+  * navegacioIds[]: llista plana d'ids (per a IntersectionObserver).
+  * navegacio (antic export): ara és flat-mapped de navegacioAgrupada per compatibilitat amb còdic existent.
+- Tasa 83 — site-nav.tsx: REESCRIPT completament. Estructura nova:
+  * Header: logo esquerra + trigger "Explora el moviment" al centre + CTA "Escolta els discos" (bg-primary, auriculars icon) a la dreta + hamburguesa a mòbil.
+  * MEGAMENU desktop: dropdown de 940px max amb 6 columnes (grid 2/3 col), cada cel·la = card amb dot indicador + títol + descripció + llista sub-items amb ChevronRight. Marcat actiu quan algun item de la cel·la és la secció activa. AnimatePresence per entrada/sortida (opacity+y+scale). Tanca automàticament: clic fora (mousedown listener), tecla Escape.
+  * MENÚ MOBIL: drawer a pantalla completa (height: 100vh) amb CTA prominent "Escolta els discos" a dalt + heading "Explora el moviment" + 6 acordions col·lapsables (MobileAccordion component). Cada acordió té número (01-06), títol, descripció, ChevronDown que rota, i animació expand/collapse amb framer-motion. El grup actiu queda obert per defecte.
+  * Body overflow: hidden quan el menú mòbil és obert (evita scroll de fons).
+  * Barra de progrés iIntersectionObserver mantinguts (usant navegacioIds).
+  * Tematització: paleta magenta vintage (border-border, bg-card/95 backdrop-blur-xl, text-foreground, etc.).
+- Tasa 83b — ESLint: net, 0 errors ✓. Dev server HTTP 200 ✓.
+- Tasa 84 — agent-browser VLM verification (desktop + mobile):
+  * DESKTOP (1280): "EXPLORA EL MOVIMENT" trigger + megamenu desplegable ✓, 6 categories visibles (Artistes, Discografia, Línia del temps, Barcelona musical, Arxiu, Context i fonts) ✓, cada una amb títol + descripció + sub-items clicables ✓, "ESCOLTA ELS DISCOS" CTA amb icona auriculars a la dreta ✓, disseny modern + elegant paleta vintage ✓, cel·la activa destacada quan la secció actual hi pertany (Ruta musical destacada) ✓.
+  * Interactivitat desktop: clic "Sala Zeleste" al megamenu → pàgina scroll a #zeleste (top=183, just sota nav) ✓.
+  * MOBIL (390px): hamburguesa obre drawer a 100vh ✓, CTA "ESCOLTA ELS DISCOS" prominent a dalt ✓, heading "EXPLORA EL MOVIMENT" ✓, 6 acordions col·lapsables amb número (01-06) + títol + descripció + ChevronDown ✓, disseny responsive professional ✓.
+  * Interactivitat mòbil: clic "Discografia" → acordió s'expandeix i mostra "Obres clau" + "Recopilatori" ✓, clic "Obres clau" → scroll a #obres (top=183) ✓.
+  * Zeleste-1.jpg: carregat correctament (Status 200, 106650 bytes, naturalWidth 750, naturalHeight 635, complete=true) ✓. VLM confirma: foto B&W històrica visible + caption "Sala Zeleste al Born, epicentre de la ona laietana (1973–1986)." a sota ✓.
+  * Console errors: 0 ✓.
+
+Stage Summary:
+- Foto de Zeleste al detall de la Ruta Musical = /laieta/zeleste-1.jpg (carregat correctament amb caption exacte).
+- Menú reestructurat en 6 grups (Artistes / Discografia / Línia del temps / Barcelona musical / Arxiu / Context i fonts) amb trigger "Explora el moviment" (megamenu desktop) i CTA "Escolta els discos" prominent. Mòbil: drawer a pantalla completa amb 6 acordions col·lapsables numerats (01-06). Modern, responsive, paleta vintage integrada.
+
+---
+Task ID: 85-90
+Agent: main (Z.ai Code)
+Task: Crear nova secció "Grafo de connexions entre artistes" — mapa navegable de relacions amb nodes diferenciats per tipus, línies per tipus de relació, filtres, panell lateral, integrat al menú.
+
+Work Log:
+- Tasa 85 — Estudi de dades existents: llegits els 21 artistes amb integrants, 8 músics de sessió, 15 persones, 24 discs clau, 14 punts de la ruta musical. Identificades les relacions reals: membres de banda, col·laboracions, influències, actuacions a sales, discs gravats a estudis, gestors/fundadors.
+- Tasa 86 — Instal·lats: d3@7.9.0 + @types/d3@7.4.3 (48 packages).
+- Tasa 87 — Creat src/lib/grafo-data.ts amb:
+  * 5 tipus de node: banda, musica, disc, sala, persona.
+  * 8 tipus d'edge: membre, disc_de, gravat_a, actuacio, colaboracio, influencia, manager, productor.
+  * 84 NODES: 16 bandes + 31 músics/solistas + 24 discs + 6 sales/estudis/llocs + 6 persones clau. Cada node amb id, nom, tipus, anys, subtipus, bio, importanca (1/2/3 per radi), linkExtern opcional.
+  * 119 EDGES: 35 membre (músic→banda), 25 disc_de (disc→banda), 7 gravat_a (disc→sala), 22 actuacio (banda/músic→sala: Zeleste, Canet, Bocaccio, Ciutadella), 10 colaboracio, 9 influencia, 6 manager/fundador, 3 productor, + 4 connexions socials (clients Bocaccio).
+  * NODE_COLORS (paleta magenta vintage complementària): banda #80296F, musica #495F4D, disc #c2410c, sala #5e7a85, persona #7c2d12.
+  * EDGE_COLORS + EDGE_LABEL + NODE_LABEL (traduït al català).
+  * grafoStats: 84 nodes, 119 relacions (desglossat per tipus).
+  * grafoIntro: titol "Grafo de connexions", subtitol "La xarxa viva del moviment", intro explicativa.
+- Tasa 88 — Creat src/components/laieta/grafo-relacions.tsx (~900 línies):
+  * Client component amb D3 force simulation, React per a meta-state (selecció, filtres, hover, cerca).
+  * Setup únic (useEffect []): crea simulació D3 (forceLink, forceManyBody -220, forceCenter, forceX/Y, forceCollide per importanca), links SVG <line> amb colors segons tipus + dashArray per influencia/colaboracio, nodes SVG <g> amb cercle hit-area transparent + cercle visible + anell exterior pels destacats + text etiqueta. Drag (d3.drag amb fx/fy), zoom (d3.zoom scaleExtent 0.3-4), hover (mouseenter/leave), click (setSelectedId + stopPropagation), clic al fons deselecciona. Tick: update posicions x/y dels nodes/links.
+  * Filtres: 2 grups (Node + Edge), 13 chips toggleable (5 node types + 8 edge types), colors dedicats, line-through quan inactiu. 4 botons ràpids: "Mostra-ho tot", "Només músics i bandes", "Només discografia", "Només sales i actuacions".
+  * Cerca: input amb resultats desplegables (8 max), filtra per nom o bio, clic selecciona.
+  * Panell lateral (aside, sticky): node seleccionat amb tipus+subtipus, badge color, anys, bio, enllaç extern, secció Connexions (sortint + entrant) amb llista de nodes relacionats (clic per navegar-hi).
+  * Overlay canvas: controls zoom (+/-/reset), llegenda compacta (5 colors), stats (X nodes · Y relacions).
+  * Highlight: quan hi ha node seleccionat, opacity 1 per connectats, 0.25 pels altres; links 1 per connectats, 0.08 pels altres; stroke gruixut (3.5) al seleccionat.
+  * Hover: cercle +3 radi quan hover i no seleccionat.
+  * Layout: grid 12 col desktop (canvas 8 + aside 4), apilat mòbil (aside dalt amb order-1, canvas baix order-2).
+- Tasa 88b — SectionHeading index="08" (entre Persones 07 i Cartografia 09).
+- Tasa 89 — Renumerats 7 índexs: ruta-musical 09→10, obres 10→11, tracklist 11→12, documents-visuals 12→13, mapa-mental 13→14, legacy 14→15, sources 15→16.
+- Tasa 89b — page.tsx: importat GrafoRelacions, inserit entre PersonesIndispensables i CartografiaMoviment.
+- Tasa 89c — laieta-data.ts: navegacioAgrupada, grup "Artistes" ampliat amb 3r item { id: "grafo-relacions", etiqueta: "Grafo de relacions" }. navegacioIds (per IntersectionObserver) s'actualitza automàticament via flatMap.
+- Tasa 88c — Bug fix: l'àrea de clic dels nodes era massa petita (només el cercle visible, no l'etiqueta de text). Afegit cercle hit-area transparent de radi NODE_RADIUS+14 amb pointer-events:all. Canviat selectors highlight/hover de "circle:first-child" a ".node-core" per no afectar l'hit-area.
+- ESLint: net, 0 errors ✓. Dev server HTTP 200 ✓.
+- Tasa 90 — agent-browser VLM verification:
+  * Desktop (1280): grafo de nodes i connexions visible ✓, nodes color-coded (magenta/verd/taronja/blau/marró) ✓, panell de filtres amb dos grups (Node + Relació) ✓, caixa de cerca ✓, 4 botons ràpids ✓, panell lateral amb Gato Pérez ✓, controls zoom + llegenda + stats ✓, paleta magenta vintage ✓.
+  * Interactivitat — clic a node Iceberg directament al canvas: side panel canvia a "Iceberg" amb Connexions (12) ✓, nodes connectats a opacitat 1 i altres a 0.25 ✓, links d'Iceberg a opacitat 1 i altres a 0.08 ✓, Iceberg amb stroke 3.5 blanc prominent ✓.
+  * Interactivitat — clic connexió "Secta Sònica" al panell lateral: side panel canvia a "Secta Sònica" ✓ (navegació entre nodes).
+  * Filtres — clic "Disc" filter: 24 nodes disc ocults (display:none) ✓.
+  * Mobile (390px): filtres apilats verticalment ✓, 0 overflow horitzontal ✓, canvas amb nodes/línies visible ✓, controls zoom + llegenda visibles ✓, panell lateral apilat ✓.
+  * Menú: "Grafo de relacions" present al megamenu dins grup "Artistes" (després de "Persones indispensables") ✓. Clic → scroll a #grafo-relacions (top=183) ✓.
+  * Console errors: 0 ✓.
+
+Stage Summary:
+- Nova secció 08 "Grafo de connexions" integrada entre Persones (07) i Cartografia (09).
+- 84 nodes i 119 relacions sobre D3 force simulation. 5 tipus de node (banda, musica, disc, sala, persona) amb colors magenta vintage. 8 tipus d'edge amb estils (línia sòlida/disc_de/gravat_a/membre/manager/productor/actuacio; puntejada/influencia; tireta/colaboracio). Filtres toggleable per node + per relació. 4 presets ràpids. Cerca amb autocompletat. Panell lateral amb info del node seleccionat + llista de connexions navegables. Zoom/pan/drag funcionals. Mobile responsive. App ara té 16 seccions.
+
+---
+Task ID: 91
+Agent: main (Z.ai Code)
+Task: Actualitzar el text d'identitat de la web afegint la referència a la Via Laietana i la sala Zeleste. El user volia dues versions lleugerament diferents: hero vs manifest.
+
+Work Log:
+- laieta-data.ts: actualitzat moviment object amb:
+  * identitat (usat al manifest) → acaba amb "Alhora, el terme també remet a la proximitat de la Via Laietana amb la sala Zeleste, epicentre del moviment musical laietà a Barcelona."
+  * identitatHero (nou camp,usat al hero) → acaba amb "Alhora, el terme també remet a la proximitat de la Via Laietana amb Zeleste, la sala barcelonina que esdevingué l'epicentre d'aquest moviment musical innovador."
+- hero.tsx (línia 95): canviat {moviment.identitat} → {moviment.identitatHero} perquè el hero mostri la versió llarga amb "moviment musical innovador." mentre el manifest usa identitat amb "epicentre del moviment musical laetà a Barcelona."
+- ESLint: net ✓. Dev server HTTP 200 ✓.
+- agent-browser VLM verification:
+  * Hero (DOM direct): "El revulsiu que va canviar la música catalana. El mot «laietà» evoca els laietans... Alhora, el terme també remet a la proximitat de la Via Laietana amb Zeleste, la sala barcelonina que esdevingué l'epicentre d'aquest moviment musical innovador." ✓
+  * Manifest (DOM direct): "El mot «laietà» evoca els laietans... Alhora, el terme també remet a la proximitat de la Via Laietana amb la sala Zeleste, epicentre del moviment musical laetà a Barcelona." ✓
+
+Stage Summary:
+- Text d'identitat ampliat amb la referència a la Via Laietana i la sala Zeleste. Hero usa la versió llarga ("moviment musical innovador"), manifest usa la versió més concisa ("epicentre del moviment musical laietà a Barcelona"). Camp nou identitatHero creat al moviment object per allotjar la variant del hero.

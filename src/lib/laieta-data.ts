@@ -99,7 +99,9 @@ export const moviment = {
   periode: "1970 – 1980 (nucli) · 1969 – 1997 (cicle ampli)",
   epicentre: "Sala Zeleste — Born, Barcelona",
   identitat:
-    "El mot «laietà» evoca els laietans, poble ibèric preromà que habitava la regió de Barcelona: una manera de reivindicar una identitat catalana i mediterrània des de la modernitat.",
+    "El mot «laietà» evoca els laietans, poble ibèric preromà que habitava la regió de Barcelona: una manera de reivindicar una identitat catalana i mediterrània des de la modernitat. Alhora, el terme també remet a la proximitat de la Via Laietana amb la sala Zeleste, epicentre del moviment musical laietà a Barcelona.",
+  identitatHero:
+    "El mot «laietà» evoca els laietans, poble ibèric preromà que habitava la regió de Barcelona: una manera de reivindicar una identitat catalana i mediterrània des de la modernitat. Alhora, el terme també remet a la proximitat de la Via Laietana amb Zeleste, la sala barcelonina que esdevingué l'epicentre d'aquest moviment musical innovador.",
 } as const;
 
 export const manifest: Citacio[] = [
@@ -1669,19 +1671,453 @@ export const cartografia = {
   ] as Collectiu[],
 };
 
-export const navegacio = [
-  { id: "manifest", etiqueta: "Manifest" },
-  { id: "context", etiqueta: "Context" },
-  { id: "fusio", etiqueta: "Fusió" },
-  { id: "zeleste", etiqueta: "Zeleste" },
-  { id: "timeline", etiqueta: "Cronologia" },
-  { id: "artistes", etiqueta: "Artistes" },
-  { id: "persones", etiqueta: "Persones" },
-  { id: "cartografia", etiqueta: "Cartografia" },
-  { id: "obres", etiqueta: "Obres" },
-  { id: "recopilatori", etiqueta: "Recopilatori" },
-  { id: "doc-visuals", etiqueta: "Doc. Visuals" },
-  { id: "mapa-mental", etiqueta: "Mapa Mental" },
-  { id: "llegat", etiqueta: "Llegat" },
-  { id: "fonts", etiqueta: "Fonts" },
-];
+// === Ruta musical per la Barcelona dels Setanta ===
+export type RutaStatus = "existent" | "historic" | "transformat";
+export type RutaTipus =
+  | "sala"
+  | "estudi"
+  | "festival"
+  | "teatre"
+  | "espai_public"
+  | "segell"
+  | "club"
+  | "discoteca";
+
+export interface RutaLocation {
+  id: string;
+  nom: string;
+  adreca: string;
+  lat: number;
+  lng: number;
+  barri: string;
+  status: RutaStatus;
+  tipus: RutaTipus;
+  anysActius: string;
+  anyObertura?: number;
+  anyTancament?: number;
+  rellevancia: string;
+  contextHistoric: string;
+  artistesRelacionats: string[];
+  foto?: string;
+  fotoCaption?: string;
+  ordreRuta?: number;
+  noRuta?: boolean;
+  linkExtern?: string;
+}
+
+export const rutaMusical = {
+  titol: "Ruta musical per la Barcelona dels Setanta",
+  subtitol: "Seguint els passos de l'Ona Laietana",
+  intro:
+    "La ona laietana no va ser un so: va ser un paisatge. Sales de concerts, estudis de gravació, segells, teatres, places i platges van formar una geografia cultural que es pot recórrer encara avui, seguint els passos dels qui van obrir el camí. Aquest mapa aixeca els 14 punts neuràlgics del moviment —els que sobreviuen, els que es van transformar i els que van desaparèixer— i proposa una ruta temàtica a peu pel centre de Barcelona, des de la plaça de Catalunya fins al carrer de l'Argenteria.",
+  llegenda: {
+    existent: "Encara existeix / actiu",
+    historic: "Històric / desaparegut",
+    transformat: "Transformat / reutilitzat",
+  },
+  ruta: {
+    titol: "Seguint els passos de l'Ona Laietana",
+    sub:
+      "Ruta a peu pel centre de Barcelona · ~4,5 km · 10 parades · 1 tarda",
+    descripcio:
+      "Des de la plaça de Catalunya baixem per la Rambla fins al mar, pugem pel Born fins a la sala Zeleste, passem per l'edifici d'Edigsa, la discoteca Bocaccio, el Parc de la Ciutadella i els teatres que van programar la ona. Cada parada afegeix una capa de context històric: la Barcelona preolímpica, sota la dictadura i la transició, on el català i la fusió van néixer plegats.",
+  },
+  locations: [
+    {
+      id: "pl-catalunya",
+      nom: "Plaça de Catalunya",
+      adreca: "Plaça de Catalunya, 08002 Barcelona",
+      lat: 41.3870,
+      lng: 2.1700,
+      barri: "Eixample / Ciutat Vella",
+      status: "existent",
+      tipus: "espai_public",
+      anysActius: "Punt de trobada permanent",
+      rellevancia:
+        "El gran fòrum urbà on els joves de la contracultura barcelonina es trobaven abans i després dels concerts. Centre neuràlgic de la Barcelona que veia néixer la ona: el lloc on passava el trànsit entre l'Eixample burgès i la Rambla lúdica, i on els fans de Sisa, Riba i Dharma es reconeixien entre la multitud.",
+      contextHistoric:
+        "Punt de partida natural de la ruta. El 1970 la plaça ja feia dècades que era el cor de la ciutat i, amb l'arribada de la democràcia, esdevindria escenari de grans concerts i manifestacions. Per la ona laietana va ser abans que res un punt de trobada: el lloc on començava tota sortida cultural.",
+      artistesRelacionats: ["Jaume Sisa", "Pau Riba", "Companyia Elèctrica Dharma"],
+      ordreRuta: 1,
+      linkExtern: "https://ca.wikipedia.org/wiki/Pla%C3%A7a_de_Catalunya_(Barcelona)",
+    },
+    {
+      id: "edigsa",
+      nom: "Edigsa — seus discogràfica",
+      adreca: "Rambla de Catalunya, cantonada Gran Via de les Corts Catalanes (Pelleteria Sibèria), Barcelona",
+      lat: 41.3872,
+      lng: 2.1616,
+      barri: "Eixample (Dreta de l'Eixample)",
+      status: "historic",
+      tipus: "segell",
+      anyObertura: 1961,
+      anyTancament: 1984,
+      anysActius: "1961–1984",
+      rellevancia:
+        "L'Editora General Societat Anònima va ser el segell que va fer possible tota la Nova Cançó i, amb ella, l'ona laietana. Constituïda davant notari el 29 de maig de 1961 a la Pellateria Sibèria d'aquesta cantonada, va editar els primers discs de Sisa, Riba, Dharma, Màquina!, Iceberg, Sabatés, Gato Pérez i molts altres. El 1984, amb la dissolució de l'empresa, el fons va passar a ser gestionat per Picap, que encara avui custodia el catàleg laietana.",
+      contextHistoric:
+        "Segon pas de la ruta. La cantonada avui és un edifici d'oficines; però la història del segell que va donar veu al català a la cançó moderna va començar aquí. Els primers 45 rpm de la Nova Cançó (Els Segadors, 1961) i els primers LP laietans (Why?, 1972) porten la marca Edigsa.",
+      artistesRelacionats: [
+        "Màquina!",
+        "Companyia Elèctrica Dharma",
+        "Iceberg",
+        "Jaume Sisa",
+        "Pau Riba",
+        "Gato Pérez",
+        "Jordi Sabatés",
+      ],
+      ordreRuta: 2,
+      linkExtern: "https://ca.wikipedia.org/wiki/Edigsa",
+    },
+    {
+      id: "palau-musica",
+      nom: "Palau de la Música Catalana",
+      adreca: "Carrer Palau de la Música, 4-6, 08003 Barcelona",
+      lat: 41.3855,
+      lng: 2.1807,
+      barri: "Sant Pere / Ciutat Vella",
+      status: "existent",
+      tipus: "teatre",
+      anyObertura: 1908,
+      anysActius: "Des de 1908",
+      rellevancia:
+        "Modernista, dissenyat per Domènech i Montaner, va acollir algunes de les vetllades més emblemàtiques de la Nova Cançó i, posteriorment, actuacions memorables de figures bisagra de la ona com Maria del Mar Bonet, Ovidi Montllor i Tete Montoliu. Tot i no ser la sala natural del rock laietà, va ser l'escenari institucional de les trobades entre la cançó tradicional i la modernitat elèctrica.",
+      contextHistoric:
+        "Tercera parada de la ruta. Construït el 1908 com a seu de l'Orfeó Català, el Palau era —i és— el gran saló musical del catalanisme. Quan la ona va començar a programar concerts més ambiciosos, aquest escenari va acollir algunes nits memorables.",
+      artistesRelacionats: ["Maria del Mar Bonet", "Ovidi Montllor", "Tete Montoliu"],
+      ordreRuta: 3,
+      linkExtern: "https://ca.wikipedia.org/wiki/Palau_de_la_M%C3%BAsica_Catalana",
+    },
+    {
+      id: "bocaccio",
+      nom: "Discoteca Bocaccio",
+      adreca: "Carrer de Muntaner, 505, 08022 Barcelona",
+      lat: 41.3945,
+      lng: 2.1565,
+      barri: "Sant Gervasi / Eixample",
+      status: "historic",
+      tipus: "discoteca",
+      anyObertura: 1967,
+      anyTancament: 1985,
+      anysActius: "1967–1985",
+      rellevancia:
+        "La cova de la gauche divine. Inaugurada per Oriol Regàs el 13 de febrer de 1967 al soterrani del número 505 del carrer de Muntaner, va ser el temple nocturn de la burgesia progressista barcelonina: cantants, actors, arquitectes, dissenyadors, editors i músics que compartien còctels, disbauxa i projectes. Molts artistes de la ona hi eren habituals, i bona part dels projectes discogràfics i teatrals dels anys setanta van néixer a les seves taules.",
+      contextHistoric:
+        "Quarta parada de la ruta (desviació per l'Eixample). La gauche divine no va ser un moviment musical, però sí la xarxa social que va sostenir la ona: el mateix Víctor Jou de Zeleste, els germans Regàs, Teresa Cunillé i molts artistes laietans eren clients habituals. La discoteca va tancar el juliol de 1985, just quan la ona ja s'apagava.",
+      artistesRelacionats: ["Oriol Regàs", "Jaume Sisa", "Maria del Mar Bonet"],
+      ordreRuta: 4,
+      foto: "/laieta/ruta-bocaccio.png",
+      fotoCaption: "Soterrani del carrer de Muntaner, 505: el temple de la gauche divine (1967–1985).",
+      linkExtern: "https://es.wikipedia.org/wiki/Bocaccio_(discoteca)",
+    },
+    {
+      id: "teatre-principal",
+      nom: "Teatre Principal",
+      adreca: "La Rambla, 27, 08002 Barcelona",
+      lat: 41.3817,
+      lng: 2.1738,
+      barri: "Ciutat Vella (Rambla)",
+      status: "existent",
+      tipus: "teatre",
+      anyObertura: 1847,
+      anysActius: "Des de 1847",
+      rellevancia:
+        "El teatre més antic d'actuació de Barcelona encara en peu. Als anys setanta va reobrir les portes al nou públic jove i va acollir diversos recitals i espectacles que fusionaven cançó, teatre i música. La seva programació heterodoxa va fer de pont entre la tradició teatral catalana i l'escena experimental que alimentaria la ona.",
+      contextHistoric:
+        "Cinquena parada. Baixem de la plaça de Catalunya per la Rambla i ens aturem davant d'aquest teatre fundat el 1847. Al llarg del segle XX sempre ha estat programador de pont: entre el teatre comercial i el català, entre la cançó de varietats i el recital de autor.",
+      artistesRelacionats: ["Ovidi Montllor", "Carles Flavià"],
+      ordreRuta: 5,
+      linkExtern: "https://ca.wikipedia.org/wiki/Teatre_Principal_(Barcelona)",
+    },
+    {
+      id: "liceu",
+      nom: "Gran Teatre del Liceu",
+      adreca: "La Rambla, 51-59, 08002 Barcelona",
+      lat: 41.3805,
+      lng: 2.1737,
+      barri: "Ciutat Vella (Rambla)",
+      status: "existent",
+      tipus: "teatre",
+      anyObertura: 1847,
+      anysActius: "Des de 1847 (reconstruït 1999)",
+      rellevancia:
+        "El gran teatre d'òpera de Barcelona. Als anys setanta, amb l'obertura programàtica de la transició, va començar a acollir alguna vetllada de cançó moderna. Però el seu paper real va ser simbòlic: la burgesia que el freqüentava era la mateixa que sostenia Edigsa i que es reunia a Bocaccio. La sala lírica del país formava part del mateix ecosistema que la ona.",
+      contextHistoric:
+        "Sisena parada de la ruta, molt a prop del Principal. El Liceu va patir el gran incendi de 1994 i va ser reconstruït; però als setanta era encara el centre de l'òpera catalana i un símbol compartit per tota la cultura urbana barcelonina.",
+      artistesRelacionats: ["Maria del Mar Bonet", "Tete Montoliu"],
+      ordreRuta: 6,
+      linkExtern: "https://ca.wikipedia.org/wiki/Gran_Teatre_del_Liceu",
+    },
+    {
+      id: "pl-reial",
+      nom: "Plaça Reial i Jamboree",
+      adreca: "Plaça Reial, 17 (Jamboree), 08002 Barcelona",
+      lat: 41.3815,
+      lng: 2.1752,
+      barri: "Ciutat Vella (Gòtic)",
+      status: "existent",
+      tipus: "club",
+      anyObertura: 1960,
+      anysActius: "Jamboree des de 1960",
+      rellevancia:
+        "El Jamboree, al número 17 de la plaça Reial, és el club de jazz més antic d'Europa en actiu. Als anys seixanta i setanta va ser un dels escassos llocs on els músics de la ona podien sentir jazz en directe i tocar-hi: Tete Montoliu hi actuava sovint, i hi passava bona part dels músics de sessió laietans. La plaça Reial mateixa, neoclàssica i porticada, era punt de reunió permanent de la contracultura barcelonina.",
+      contextHistoric:
+        "Setena parada. Víctor Jou, fundador de Zeleste, va néixer a la plaça Reial —l'epicentre vital del qual arrencaria més tard la sala llegendària. Avui encara s'hi respira aquella barreja de turisme i bohemia que va caracteritzar la Barcelona dels setanta.",
+      artistesRelacionats: ["Tete Montoliu", "Gato Pérez", "Toti Soler"],
+      ordreRuta: 7,
+      linkExtern: "https://ca.wikipedia.org/wiki/Pla%C3%A7a_Reial",
+    },
+    {
+      id: "parc-ciutadella",
+      nom: "Parc de la Ciutadella",
+      adreca: "Passeig de Picasso, 08003 Barcelona",
+      lat: 41.3884,
+      lng: 2.1870,
+      barri: "Ciutat Vella (La Ribera / Parc)",
+      status: "existent",
+      tipus: "espai_public",
+      anyObertura: 1877,
+      anysActius: "Espai públic des de 1877",
+      rellevancia:
+        "Aquí va tenir lloc la gran germinalització a l'aire lliure de la contracultura musical catalana. El Grup de Folk —format per Sisa, Riba, Ovidi Montllor, Oriol Tramvia, Carles Flavià, Josep Maria Carandina i Anna Maria Camps— hi va fer happenings multitudinaris a imitació de Dylan i del freak folk anglosaxó. Era el catalanisme boig dels anys 70: recitals gratuïts, multituds estirades a l'herba i, sovint, interventions policials.",
+      contextHistoric:
+        "Vuitena parada, després de pujar pel passeig de Colom. El parc va ser la gran resposta popular de la ona: el terreny on el moviment deixava de ser un fenomen de sala i es convertia en fenomen cultural de masses. Avui les manifestacions del 11 de Setembre hi continuen passant.",
+      artistesRelacionats: [
+        "Jaume Sisa",
+        "Pau Riba",
+        "Ovidi Montllor",
+        "Grup de Folk",
+        "Carles Flavià",
+      ],
+      ordreRuta: 8,
+      linkExtern: "https://ca.wikipedia.org/wiki/Parc_de_la_Ciutadella",
+    },
+    {
+      id: "carrer-argenteria",
+      nom: "Carrer de l'Argenteria (antic carrer de la Plateria)",
+      adreca: "Carrer de l'Argenteria, 08003 Barcelona",
+      lat: 41.3850,
+      lng: 2.1825,
+      barri: "Ciutat Vella (La Ribera / Born)",
+      status: "transformat",
+      tipus: "espai_public",
+      anysActius: "Carrer històric",
+      rellevancia:
+        "Aquest carrer estret i llarg del Born, que davalla des de Santa Maria del Mar fins a la plaça de Palau, era conegut fins als anys setanta com a «carrer de la Plateria», per l'ofici dels seus botiguers. Aquí, al número on ara hi ha locals comercials i restaurants, va obrir el 23 de maig de 1973 la primera sala Zeleste —punt de naixement de la ona laietana. El carrer va canviar de nom (i la sala, d'ubicació), però continua sent un dels carrers més densament musicals de Barcelona.",
+      contextHistoric:
+        "Novena parada, abans de la parada final. Avui el Born és barri de moda i museus; als anys setanta era encara el barri vell, poblat de magatzems i tallers. Aquella foscor i aquell realisme van ser decisius perquè la sala hi pogués instal·lar-se.",
+      artistesRelacionats: ["Zeleste", "Víctor Jou"],
+      ordreRuta: 9,
+      linkExtern: "https://ca.wikipedia.org/wiki/Carrer_de_l%27Argenteria",
+    },
+    {
+      id: "zeleste",
+      nom: "Sala Zeleste (ubicació original)",
+      adreca: "Carrer de la Plateria (avui Argenteria), 08003 Barcelona",
+      lat: 41.3851,
+      lng: 2.1830,
+      barri: "Ciutat Vella (La Ribera / Born)",
+      status: "historic",
+      tipus: "sala",
+      anyObertura: 1973,
+      anyTancament: 1986,
+      anysActius: "1973–1986 (ubicació original)",
+      rellevancia:
+        "L'epicentre absolut de la ona laietana. Fundada per Víctor Jou i dissenyada per Santiago Roqueta, va obrir el 23 de maig de 1973 i va tancar a aquesta ubicació el 1986 (després va tenir diverses reencarnacions, primer al carrer Almogàvers i, més tard, al Poble Espanyol). Aquí van tocar Sisa, Companyia Elèctrica Dharma, Iceberg, Gato Pérez, Barcelona Traction, Orquestra Mirasol, Maria del Mar Bonet, Màquina! i pràcticament tots els artistes de l'Edigsa. Zeleste era, literalment, la sala on la oa va nàixer i va morir.",
+      contextHistoric:
+        "Desena i última parada de la ruta. Víctor Jou, arquitecte de formació, va transformar un magatzem vell en un cafè-teatre-sala de concerts i va programar jazz, rock, cançó mediterrània i música cubana amb una coherència estètica mediterrània que va donar coherència al moviment. Avui aquesta adreça és un comerç; però la història del rock català comença aquí.",
+      artistesRelacionats: [
+        "Zeleste",
+        "Víctor Jou",
+        "Jaume Sisa",
+        "Companyia Elèctrica Dharma",
+        "Iceberg",
+        "Gato Pérez",
+        "Barcelona Traction",
+        "Orquestra Mirasol",
+        "Maria del Mar Bonet",
+        "Màquina!",
+        "Jordi Sabatés",
+      ],
+      ordreRuta: 10,
+      foto: "/laieta/zeleste-1.jpg",
+      fotoCaption: "Sala Zeleste al Born, epicentre de la ona laietana (1973–1986).",
+      linkExtern: "https://es.wikipedia.org/wiki/Zeleste",
+    },
+    // === Punts fora de la ruta principal ===
+    {
+      id: "camp-de-la-bota",
+      nom: "Camp de la Bota",
+      adreca: "Passeig del Camp de la Bota, 08019 Barcelona (avui zona Fòrum)",
+      lat: 41.4100,
+      lng: 2.2225,
+      barri: "Sant Martí (Poblenou / Diagonal Mar)",
+      status: "historic",
+      tipus: "festival",
+      anysActius: "Anys 1970 (concerts a l'aire lliure)",
+      rellevancia:
+        "Antic camp militar a la platja del Poblenou, espai abandonat i mític on es van fer grans concerts gratuïts a l'aire lliure durant la transició. El Camp de la Bota és, en l'imaginari barceloní, el lloc on la ciutat acabava i on podia començar la festa. Avui el nom sobreviu en el passeig que voreja el Fòrum, però l'espai original va desaparèixer amb la construcció del Fòrum 2004.",
+      contextHistoric:
+        "Excursió fora de la ruta (cal transport). El Camp de la Bota representava, als anys 70, la frontera: la platja lliure, el descampat, el lloc sense vigilància. Molts dels grans concerts gratuïts de la transició hi van tenir lloc.",
+      artistesRelacionats: ["Grup de Folk", "Jaume Sisa", "Pau Riba"],
+      noRuta: true,
+      foto: "/laieta/ruta-camp-bota.png",
+      fotoCaption: "Platja i descampat del Camp de la Bota: la frontera lliure de la transició.",
+      linkExtern: "https://ca.wikipedia.org/wiki/Camp_de_la_Bota",
+    },
+    {
+      id: "canet-rock",
+      nom: "Festival Canet Rock (Pla d'en Sala)",
+      adreca: "Pla d'en Sala, Carrer Vía Cannetum, 08360 Canet de Mar",
+      lat: 41.5896,
+      lng: 2.5715,
+      barri: "Canet de Mar (Maresme, 40 km al NE de BCN)",
+      status: "existent",
+      tipus: "festival",
+      anyObertura: 1975,
+      anyTancament: 1980,
+      anysActius: "1975–1980 (i revifalla 2017–present)",
+      rellevancia:
+        "El gran festival a l'aire lliure del català. Cinc edicions entre 1975 i 1980 van reunir, al Pla d'en Sala de Canet de Mar, tots els grups de la ona laietana i de la cançó moderna: Sisa, Dharma, Iceberg, Mirasol, Barcelona Traction, Gato Pérez, Maria del Mar Bonet, Lluís Llach i molts altres. Va ser el Woodstock català —de fet, molts el coneixen així— i va marcar el punt més alt d'audiència i consciència col·lectiva del moviment. El festival va revifar el 2017 amb el mateix nom.",
+      contextHistoric:
+        "Excursió fora de la ruta (40 min en tren de Barcelona). Canet de Mar era —i és— un poble coster del Maresme amb forta tradició modernista i popular. El 1975, els darrers mesos del franquisme, milers de joves van omplir el Pla d'en Sala en un acte col·lectiu d'afirmació cultural.",
+      artistesRelacionats: [
+        "Jaume Sisa",
+        "Companyia Elèctrica Dharma",
+        "Iceberg",
+        "Orquestra Mirasol",
+        "Barcelona Traction",
+        "Gato Pérez",
+        "Maria del Mar Bonet",
+        "Màquina!",
+        "Jordi Sabatés",
+      ],
+      noRuta: true,
+      foto: "/laieta/ruta-canet.png",
+      fotoCaption: "Pla d'en Sala de Canet de Mar, epicentre del Canet Rock (1975–1980).",
+      linkExtern: "https://ca.wikipedia.org/wiki/Canet_Rock",
+    },
+    {
+      id: "cova-drac",
+      nom: "La Cova del Drac",
+      adreca: "Carrer de Vallmajor, 33, 08018 Barcelona",
+      lat: 41.3966,
+      lng: 2.1644,
+      barri: "Sant Gervasi de Cassoles",
+      status: "historic",
+      tipus: "club",
+      anysActius: "Anys 1950–1970",
+      rellevancia:
+        "La cova del Drac va ser un dels primers clubs de jazz de Barcelona, fundat als anys cinquanta i actiu durant dècades. Tete Montoliu hi va tocar sovint, com també altres figures del jazz català que van acabar formant músics de sessió per a la ona laietana. Era un local estret, fosc, amb programació estable de jazz modern i tradicional.",
+      contextHistoric:
+        "Excursió fora de la ruta (Sant Gervasi). La Cova del Drac va tancar fa anys, però el seu paper en la formació dels músics de la ona va ser fonamental: aquí va sonar Coltrane, Monk i el be-bop quan aquests noms eren a gairebé cap altra sala de la ciutat.",
+      artistesRelacionats: ["Tete Montoliu", "Toti Soler", "Jordi Sabatés"],
+      noRuta: true,
+      linkExtern: "https://ca.wikipedia.org/wiki/La_Cova_del_Drac",
+    },
+    {
+      id: "teatre-goya",
+      nom: "Teatre Goya",
+      adreca: "Carrer de Joaquín Costa, 68, 08001 Barcelona",
+      lat: 41.3790,
+      lng: 2.1645,
+      barri: "Raval",
+      status: "existent",
+      tipus: "teatre",
+      anyObertura: 1914,
+      anysActius: "Des de 1914 (reformat diverses vegades)",
+      rellevancia:
+        "Saló clàssic del Raval, reformat diverses vegades al llarg del segle XX. Als anys setanta va programar espectacles híbrids —teatre, cançó, varietats— i va fer de pont entre la tradició del cafè-concert i els nous formats de cafè-teatre que acabarien a la sala Zeleste.",
+      contextHistoric:
+        "Excursió fora de la ruta (Raval). El Goya va ser un dels teatres que va donar el relleu generacional al teatre català: la generació que als anys setanta treballava aquí és la mateixa que omplia les taules de Bocaccio i el públic de Zeleste.",
+      artistesRelacionats: ["Carles Flavià", "Ovidi Montllor"],
+      noRuta: true,
+      linkExtern: "https://ca.wikipedia.org/wiki/Teatre_Goya",
+    },
+  ] as RutaLocation[],
+};
+
+export interface NavItem {
+  id: string;
+  etiqueta: string;
+}
+
+export interface NavGrup {
+  titol: string;
+  descripcio: string;
+  items: NavItem[];
+}
+
+export interface NavegacioAgrupada {
+  trigger: string;
+  cta: NavItem;
+  grups: NavGrup[];
+}
+
+// Menú modern amb 6 categories agrupades + CTA "Escolta els discos"
+export const navegacioAgrupada: NavegacioAgrupada = {
+  trigger: "Explora el moviment",
+  cta: { id: "recopilatori", etiqueta: "Escolta els discos" },
+  grups: [
+    {
+      titol: "Artistes",
+      descripcio: "Grups, músics i col·laboracions",
+      items: [
+        { id: "artistes", etiqueta: "Grups i bandes" },
+        { id: "persones", etiqueta: "Persones indispensables" },
+        { id: "grafo-relacions", etiqueta: "Grafo de relacions" },
+      ],
+    },
+    {
+      titol: "Discografia",
+      descripcio: "Àlbums, cançons i recopilatoris",
+      items: [
+        { id: "obres", etiqueta: "Obres clau" },
+        { id: "recopilatori", etiqueta: "Recopilatori" },
+      ],
+    },
+    {
+      titol: "Línia del temps",
+      descripcio: "De 1969 fins al llegat actual",
+      items: [
+        { id: "timeline", etiqueta: "Cronologia" },
+        { id: "llegat", etiqueta: "Llegat" },
+      ],
+    },
+    {
+      titol: "Barcelona musical",
+      descripcio: "Sales, estudis i llocs històrics",
+      items: [
+        { id: "zeleste", etiqueta: "Sala Zeleste" },
+        { id: "cartografia", etiqueta: "Cartografia" },
+        { id: "ruta-musical", etiqueta: "Ruta musical" },
+      ],
+    },
+    {
+      titol: "Arxiu",
+      descripcio: "Fotografies, vídeos i documents",
+      items: [
+        { id: "doc-visuals", etiqueta: "Documents visuals" },
+        { id: "mapa-mental", etiqueta: "Mapa mental" },
+      ],
+    },
+    {
+      titol: "Context i fonts",
+      descripcio: "Història, recerca i bibliografia",
+      items: [
+        { id: "manifest", etiqueta: "Manifest" },
+        { id: "context", etiqueta: "Context històric" },
+        { id: "fusio", etiqueta: "Fusió" },
+        { id: "fonts", etiqueta: "Fonts i bibliografia" },
+      ],
+    },
+  ],
+};
+
+// Llista plana d'ids de secció (per a IntersectionObserver i altres usos)
+export const navegacioIds: string[] = navegacioAgrupada.grups.flatMap((g) =>
+  g.items.map((i) => i.id),
+);
+
+// Compatibilitat amb codi existent (antic export pla)
+export const navegacio = navegacioAgrupada.grups.flatMap((g) => g.items);

@@ -23,7 +23,7 @@ export function ObresClau() {
     <section id="obres" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
-          index="09"
+          index="11"
           kicker="Obres clau"
           title="Discografia i obres cabals"
           description="Vuit obres que articulen el cicle laietà, de la psicodèlia seminal de 1969 a la síntesi madura de 1977. Ordena-les cronològicament."

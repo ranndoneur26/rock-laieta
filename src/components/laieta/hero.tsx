@@ -92,7 +92,7 @@ export function Hero() {
           className="mt-6 max-w-2xl text-balance-pretty text-lg leading-relaxed text-foreground/85 sm:text-xl"
         >
           {moviment.lema}.{" "}
-          <span className="text-foreground/70">{moviment.identitat}</span>
+          <span className="text-foreground/70">{moviment.identitatHero}</span>
         </motion.p>
 
         <motion.div

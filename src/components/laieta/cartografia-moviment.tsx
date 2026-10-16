@@ -18,7 +18,7 @@ export function CartografiaMoviment() {
     <section id="cartografia" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
-          index="08"
+          index="09"
           kicker="Cartografia"
           title="Cartografia exhaustiva del moviment"
           description="Bandes, col·lectius i projectes satèl·lits: el mapa complet de la constel·lació laietana."

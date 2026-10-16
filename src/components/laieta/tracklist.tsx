@@ -7,7 +7,7 @@ export function Tracklist() {
     <section id="recopilatori" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
-          index="10"
+          index="12"
           kicker="Recopilatori"
           title="Música Laietana. Zeleste"
           description={recopilatori.descripcio}

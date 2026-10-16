@@ -6,7 +6,9 @@ import { Zeleste } from "@/components/laieta/zeleste";
 import { Timeline } from "@/components/laieta/timeline";
 import { BandExplorer } from "@/components/laieta/band-explorer";
 import { PersonesIndispensables } from "@/components/laieta/persones-indispensables";
+import { GrafoRelacions } from "@/components/laieta/grafo-relacions";
 import { CartografiaMoviment } from "@/components/laieta/cartografia-moviment";
+import { RutaMusical } from "@/components/laieta/ruta-musical";
 import { ObresClau } from "@/components/laieta/obres-clau";
 import { Tracklist } from "@/components/laieta/tracklist";
 import { DocumentsVisuals } from "@/components/laieta/documents-visuals";
@@ -29,7 +31,9 @@ export default function Home() {
         <Timeline />
         <BandExplorer />
         <PersonesIndispensables />
+        <GrafoRelacions />
         <CartografiaMoviment />
+        <RutaMusical />
         <ObresClau />
         <Tracklist />
         <DocumentsVisuals />
