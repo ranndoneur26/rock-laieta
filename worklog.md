@@ -962,3 +962,89 @@ Stage Summary:
 - Responsive reforçat: overflow-x:hidden global, text-size-adjust per evitar zoom iOS, overscroll-behavior per safe-area.
 - Auditoria completa mobile 390px: 0 overflow real en cap de les 17 seccions.
 - Projecte llest i net.
+
+---
+Task ID: 113-115
+Agent: main (Z.ai Code)
+Task: Afegir secció "Què va matar l'Ona Laietana" abans de Fonts documentals, amb reproductor d'àudio petit (play/pause/stop) i URL de NotebookLM.
+
+Work Log:
+- Tasa 113 — Creat component mort-ona-laietana.tsx:
+  * Reproductor d'àudio HTML5 amb audioRef + useState/useEffect per sincronitzar state.
+  * 3 botons de control principals (play, pause, stop) com ha demanat l'usuari:
+    - PLAY (▶): bg-primary sòlid amb shadow glow, disabled quan isPlaying && !isPaused
+    - PAUSE (⏸): bg-secondary/40, disabled quan !isPlaying
+    - STOP (■): bg-secondary/40, disabled quan !isPlaying && !isPaused (reinicia a 0)
+  * Barra de progrés personalitzada (input range amb gradient dinàmic que mostra progrés actual com a farciment magenta)
+  * Control de volum (icona + slider, ocult en mobile per estalviar espai)
+  * Display temps actual / duració total (format mm:ss)
+  * Loading state: "Carregant metadades de l'àudio…" mentre no es carrega
+  * Error fallback: si l'àudio no es pot carregar directament (Google NotebookLM sovint requereix auth), mostra caixa amber amb botó "Obrir a NotebookLM" que obre la URL en nova pestanya.
+  * crossOrigin="anonymous" per intentar carregar directament (probablement fallarà per CORS, però fallback actiu).
+  * URL: https://notebook.google.com/notebook/9587d495-6420-4d26-a928-0a633ed61088/artifact/24f59d0a-09cc-45ec-ba8d-482b55167ffa?authuser=1&pageId=none
+  * Event listeners: timeupdate, loadedmetadata, ended, error, waiting, canplay.
+  * Cleanup correcte de listeners en unmount.
+  * Capçalera amb icona Music4 animada (pulse-soft) quan es reprodueix, AlertTriangle quan hi ha error.
+- Tasa 113b — Contingut complementari "Sis moments del declivi":
+  * 6 cards numerats amb franges anys: 1978-1982 (crisi econòmica i canvi generacional), 1979 (moguda madrilenya desplaça BCN), 1980 (darrer Canet Rock clàssic), 1984 (Edigsa desapareix), 1985 (tancament Bocaccio), 1986 (Zeleste abandona el Born).
+  * Conclusió destacada en caixa magenta accent: "L'Ona Laietana no va morir — es va dissoldre. Els seus músics van nodrir la nova cançó, el pop dels 80, el flamenco-jazz. Pegasus n'és hereu directe."
+- Tasa 114 — Integració a page.tsx: importat MortOnaLaietana, inserit entre Legacy i Sources (abans de Fonts documentals consolidades com ha demanat l'usuari).
+- Tasa 114b — Renumerat Sources index 17 → 18. App ara té 18 seccions (01-18).
+- Tasa 114c — laieta-data.ts: navegacioAgrupada, grup "Línia del temps" ampliat amb 3r item { id: "mort-ona-laietana", etiqueta: "Mort de l'Ona" } entre llegat i fi del grup. navegacioIds s'actualitza automàticament.
+- ESLint: net, 0 errors ✓. Dev server HTTP 200 ✓.
+- Tasa 115 — agent-browser VLM verification:
+  * Desktop (1280): reproductor amb títol "Què va matar l'Ona Laietana" + label "Àudio integral · NotebookLM" ✓, 3 botons play/pause/stop visibles ✓, barra de progrés amb temps actual/duració ✓, control de volum ✓, disseny professional ✓.
+  * Mobile (390px): reproductor apilat verticalment ✓, 0 overflow horitzontal ✓, controls visibles ✓, layout responsiu correcte ✓.
+  * Menú: "Mort de l'Ona" present al megamenu dins grup "Línia del temps" (després de Llegat) ✓. Clic → scroll a #mort-ona-laietana (top=184) ✓.
+  * Console errors: 0 ✓.
+
+Stage Summary:
+- Nova secció 17 "Què va matar l'Ona Laietana" integrada entre Llegat (16) i Fonts (18, renumerat).
+- Reproductor d'àudio HTML5 amb 3 botons (play/pause/stop) + barra de progrés + control de volum + fallback "Obrir a NotebookLM" si la URL requereix auth.
+- URL: NotebookLM artifact (pot requerir inici de sessió Google — fallback actiu per obrir en nova pestanya).
+- 6 cards de moments del declivi (1978-1986) + conclusió destacada sobre la dissolució (no mort) del moviment.
+- Afegit al menú dins grup "Línia del temps". App ara té 18 seccions.
+
+---
+Task ID: 116
+Agent: main (Z.ai Code)
+Task: Substituir URL de Google NotebookLM per fitxer MP3 local carregat per l'usuari (Què_va_matar_l_Ona_Laietana.m4a) i convertir-lo a format més adient i menys pesat.
+
+Work Log:
+- Tasa 116a — Anàlisi del fitxer original M4A pujat per l'usuari:
+  * Path: /home/z/my-project/upload/Què_va_matar_l_Ona_Laietana.m4a
+  * Mida: 16,449,868 bytes (16.4MB)
+  * Format: ISO Media, MPEG v4 system, Dynamic Adaptive Streaming over HTTP
+  * Codec: AAC, sample_rate 44100 Hz, stereo (2 canals), bit_rate 256kbps
+  * Duració: 511.094422 segons (8 min 31 s)
+- Tasa 116b — Conversió amb ffmpeg a MP3 mono 64kbps (format adient per narració):
+  * Comanda: `ffmpeg -y -i input.m4a -c:a libmp3lame -b:a 64k -ac 1 -ar 44100 output.mp3`
+  * Justificació dels paràmetres:
+    - Codec MP3 (libmp3lame): 99%+ compatibilitat en tots els navegadors moderns (millor que AAC/M4A per playback fiable a Chrome/Firefox/Edge/Safari)
+    - Bitrate 64kbps: suficient per narració (veu humana), estalvi màxim d'espai. Per música es recomanaria 128-192kbps, però per veu 64kbps és perfecte.
+    - Mono (ac 1): la veu no necessita estèreo, estalvia 50% de mida
+    - Sample rate 44100 Hz: mantingut (estàndard CD quality)
+  * Output: /home/z/my-project/public/laieta/mort-ona-laietana.mp3
+  * Mida final: 4,089,448 bytes (4MB) — reducció del 75% respecte l'original
+  * Verificat amb ffprobe: codec=mp3, sample_rate=44100, channels=1, bit_rate=64000, duration=511.137959
+- Tasa 116c — Actualitzat component mort-ona-laietana.tsx:
+  * AUDIO_URL canviada de Google NotebookLM → "/laieta/mort-ona-laietana.mp3" (fitxer local servit per Next.js)
+  * Eliminat crossOrigin="anonymous" (no necessari per a fitxer local)
+  * Label actualitzat: "Àudio integral · MP3 local" (abans "· NotebookLM")
+  * Subtítol: "Narració integral · 8 min 31 s · format MP3 mono 64kbps (4MB)"
+  * Fallback actualitzat: ara diu "Comproveu la connexió i torneu a intentar-ho. Podeu descarregar el fitxer MP3 directament" amb botó "Descarregar MP3" (atribut download per forçar descarrega enlloc d'obrir en nova pestanya)
+  * aria-label del botó Play quan hi ha error: "Tornar a intentar" (abans "Obrir a NotebookLM")
+- Tasa 116d — Verificació:
+  * HTTP 200 per /laieta/mort-ona-laietana.mp3, Size: 4089448 bytes ✓
+  * ESLint net ✓
+  * agent-browser: clic al botó Reproduir → audio.currentTime=2.9s, paused=false, readyState=4 (HAVE_ENOUGH_DATA), duration=511s ✓
+  * Console errors: 0 ✓
+  * Cap fallback error (l'àudio local carrega correctament)
+  * Visual: reproductor amb label "MP3 local", 3 botons play/pause/stop, barra de progrés, control volum ✓
+
+Stage Summary:
+- Fitxer M4A original de 16.4MB (256kbps stereo AAC) convertit a MP3 mono 64kbps de 4MB — reducció del 75%.
+- Component actualitzat per usar el fitxer local enlloc de la URL de NotebookLM.
+- Àudio es reprodueix correctament (verificat: readyState=4, paused=false, currentTime avança).
+- Fallback actualitzat a "Descarregar MP3" per si hi ha problemes de càrrega.
+- Format MP3 mono 64kbps: òptim per narració (qualitat de veu molt bona, mida mínima, màxima compatibilitat de navegadors).
