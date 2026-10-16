@@ -2418,6 +2418,7 @@ export const navegacioAgrupada: NavegacioAgrupada = {
       items: [
         { id: "timeline", etiqueta: "Cronologia" },
         { id: "llegat", etiqueta: "Llegat" },
+        { id: "mort-ona-laietana", etiqueta: "Mort de l'Ona" },
       ],
     },
     {

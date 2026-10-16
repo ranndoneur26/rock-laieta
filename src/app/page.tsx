@@ -15,6 +15,7 @@ import { Tracklist } from "@/components/laieta/tracklist";
 import { DocumentsVisuals } from "@/components/laieta/documents-visuals";
 import { MapaMental } from "@/components/laieta/mapa-mental";
 import { Legacy } from "@/components/laieta/legacy";
+import { MortOnaLaietana } from "@/components/laieta/mort-ona-laietana";
 import { Sources } from "@/components/laieta/sources";
 import { SiteFooter } from "@/components/laieta/site-footer";
 import { BackToTop } from "@/components/laieta/back-to-top";
@@ -41,6 +42,7 @@ export default function Home() {
         <DocumentsVisuals />
         <MapaMental />
         <Legacy />
+        <MortOnaLaietana />
         <Sources />
       </main>
       <SiteFooter />
