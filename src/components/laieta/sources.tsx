@@ -9,6 +9,7 @@ import {
   FileText,
   ShoppingBag,
   BookMarked,
+  ChevronDown,
 } from "lucide-react";
 
 export function Sources() {
@@ -16,7 +17,7 @@ export function Sources() {
     <section id="fonts" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
-          index="13"
+          index="14"
           kicker="Fonts"
           title="Fonts documentals consolidades"
           description="Contingut reconstruït i enriquit a partir d'aquestes fonts primàries, secundàries i recursos en línia, en homenatge al moviment."
@@ -99,44 +100,45 @@ export function Sources() {
           <h3 className="flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.25em] text-primary">
             <BookMarked className="h-4 w-4" /> Bibliografia utilitzada
           </h3>
-          <ol className="mt-4 space-y-3 text-sm leading-relaxed text-foreground/80">
-            {bibliografia.map((b, i) => (
-              <li
-                key={b.id}
-                className="flex gap-3 border-l-2 border-border/40 pl-4"
-              >
-                <span className="shrink-0 font-mono text-[0.65rem] text-muted-foreground/60 pt-1">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="flex-1">
-                  <span className="font-medium text-foreground">{b.autor}</span>
-                  {b.any !== "—" ? (
-                    <span className="text-muted-foreground"> ({b.any})</span>
-                  ) : null}
-                  {" "}
-                  <span className="italic text-foreground/85">{b.titol}</span>
-                  {b.lloc ? <span className="text-muted-foreground">. {b.lloc}: </span> : <span className="text-muted-foreground">. </span>}
-                  {b.editorial ? (
-                    <span className="text-muted-foreground">{b.editorial}.</span>
-                  ) : null}
-                  {" "}
-                  <span className="font-mono text-[0.6rem] uppercase tracking-wider text-primary/60">
-                    {b.tipus}
+          <div className="mt-4 space-y-2">
+            {bibliografia.map((grup) => (
+              <details key={grup.id} className="group rounded-xl border border-border/40 bg-card/40 overflow-hidden">
+                <summary className="flex cursor-pointer items-center justify-between gap-3 px-4 py-3 select-none">
+                  <span className="flex items-center gap-2">
+                    <span className="font-mono text-[0.6rem] text-muted-foreground/60">{String(bibliografia.indexOf(grup) + 1).padStart(2, "0")}</span>
+                    <span className="text-sm font-medium text-foreground">{grup.titol}</span>
                   </span>
-                  {b.url ? (
-                    <a
-                      href={b.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="ml-1 inline-flex items-center gap-0.5 font-mono text-[0.6rem] uppercase tracking-wider text-primary transition hover:underline"
-                    >
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
-                  ) : null}
-                </span>
-              </li>
+                  <span className="flex items-center gap-2">
+                    <span className="font-mono text-[0.6rem] text-muted-foreground/60">{grup.entrades.length}</span>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground transition group-open:rotate-180" />
+                  </span>
+                </summary>
+                <ol className="space-y-2 px-4 pb-4 pt-1 text-sm leading-relaxed text-foreground/80">
+                  {grup.entrades.map((b, i) => (
+                    <li key={b.id} className="flex gap-3 border-l-2 border-border/40 pl-3">
+                      <span className="flex-1">
+                        <span className="font-medium text-foreground">{b.autor}</span>
+                        {b.any !== "—" ? (
+                          <span className="text-muted-foreground"> ({b.any})</span>
+                        ) : null}{" "}
+                        <span className="italic text-foreground/85">{b.titol}</span>
+                        {b.lloc ? <span className="text-muted-foreground">. {b.lloc}: </span> : <span className="text-muted-foreground">. </span>}
+                        {b.editorial ? (
+                          <span className="text-muted-foreground">{b.editorial}.</span>
+                        ) : null}{" "}
+                        <span className="font-mono text-[0.55rem] uppercase tracking-wider text-muted-foreground/60">{b.tipus}</span>
+                        {b.url ? (
+                          <a href={b.url} target="_blank" rel="noopener noreferrer" className="ml-1 inline-flex items-center gap-0.5 text-primary transition hover:underline">
+                            <ExternalLink className="h-3 w-3" />
+                          </a>
+                        ) : null}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </details>
             ))}
-          </ol>
+          </div>
         </div>
 
         {/* En línia */}

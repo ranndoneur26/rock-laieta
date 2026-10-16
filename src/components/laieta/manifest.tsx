@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { moviment, manifest, contextHistoric } from "@/lib/laieta-data";
 import { SectionHeading } from "./section-heading";
 import { Quote, Sparkles, Calendar, MapPin } from "lucide-react";
@@ -6,6 +7,18 @@ export function Manifest() {
   return (
     <section id="manifest" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        {/* banner */}
+        <div className="relative mb-8 aspect-[16/7] w-full overflow-hidden rounded-2xl border border-border/60">
+          <Image
+            src="/laieta/rock-laieta-bcn.jpg"
+            alt="Rock Laietà Barcelona — banner de l'Ona laietana"
+            fill
+            sizes="(min-width: 1280px) 1280px, 100vw"
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-background/20" />
+        </div>
         <SectionHeading
           index="01"
           kicker="Manifest"

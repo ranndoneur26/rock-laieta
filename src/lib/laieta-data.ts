@@ -1235,94 +1235,115 @@ export interface ReferenciaBibliografica {
   autor: string;
   any: string;
   titol: string;
-  tipus: "Llibre" | "Article" | "Recopilatori" | "Web" | "Revista";
+  tipus: string;
   editorial?: string;
   lloc?: string;
   url?: string;
 }
 
-export const bibliografia: ReferenciaBibliografica[] = [
+export interface GrupBibliografic {
+  id: string;
+  titol: string;
+  entrades: ReferenciaBibliografica[];
+}
+
+export const bibliografia: GrupBibliografic[] = [
   {
-    id: "bib-gomez-font",
-    autor: "Gómez-Font, À.",
-    any: "2011",
-    titol: "Barcelona, del rock progresivo a la música laietana",
-    tipus: "Llibre",
-    editorial: "Carena",
-    lloc: "Barcelona",
-    url: "https://www.amazon.com/Barcelona-progresivo-m%C3%BAsica-layetana-Zeleste/dp/8497434625",
+    id: "bib-monografies",
+    titol: "Monografies i llibres de referència",
+    entrades: [
+      { id: "b1", autor: "Domínguez, Salvador", any: "2002", titol: "Bienvenido Mr. Rock. Los primeros grupos hispanos (1957-1975)", tipus: "Llibre", editorial: "Fundación Autor / SGAE", lloc: "Madrid" },
+      { id: "b2", autor: "Domínguez, Salvador", any: "2004", titol: "Los hijos del rock. Los grupos hispanos (1975-1989)", tipus: "Llibre", editorial: "Fundación Autor / SGAE", lloc: "Madrid" },
+      { id: "b3", autor: "Fouce, Héctor", any: "2006", titol: "El futuro ya está aquí. Música pop y cambio cultural en España (1978-1985)", tipus: "Llibre", editorial: "Velecio Editores", lloc: "Madrid" },
+      { id: "b4", autor: "Gómez-Font, Àlex", any: "2008", titol: "Zeleste i la música laietana. Un passeig per la Barcelona musical dels anys setanta", tipus: "Llibre", editorial: "Pagès Editors", lloc: "Lleida" },
+      { id: "b5", autor: "Gómez-Font, Àlex", any: "2011", titol: "Barcelona, del rock progresivo a la música layetana y Zeleste", tipus: "Llibre", editorial: "Editorial Milenio", lloc: "Lleida", url: "https://www.amazon.com/Barcelona-progresivo-m%C3%BAsica-layetana-Zeleste/dp/8497434625" },
+      { id: "b6", autor: "Gonzalo, Jaime", any: "2013", titol: "La Ciudad Secreta. Sonidos experimentales en la Barcelona pre-olímpica 1971-1991", tipus: "Llibre", editorial: "Munster Records / Distrolux", lloc: "Madrid" },
+      { id: "b7", autor: "Joni D. [Jesús Sahún]", any: "2010", titol: "Que pagui Pujol! Una crònica punk de la Barcelona dels 80", tipus: "Llibre", editorial: "La Ciutat Invisible Edicions", lloc: "Barcelona" },
+      { id: "b8", autor: "Llansamà, Jordi", any: "2011", titol: "Harto de todo. Historia oral del punk en la ciudad de Barcelona (1979-1987)", tipus: "Llibre", editorial: "BCore Disc", lloc: "Barcelona" },
+      { id: "b9", autor: "Malvido, Pau", any: "2004", titol: "Nosotros los malditos", tipus: "Llibre", editorial: "Editorial Anagrama", lloc: "Barcelona" },
+      { id: "b10", autor: "Ordovás, Jesús", any: "1977", titol: "De qué va el Rrollo", tipus: "Llibre", editorial: "Editorial La Piqueta", lloc: "Madrid" },
+      { id: "b11", autor: "Ordovás, Jesús", any: "1987", titol: "Historia de la música pop española", tipus: "Llibre", editorial: "Alianza Editorial", lloc: "Madrid" },
+      { id: "b12", autor: "Papo, Alfredo", any: "1985", titol: "El jazz a Catalunya", tipus: "Llibre", editorial: "Edicions 62 / Llibres a l'Abast", lloc: "Barcelona" },
+      { id: "b13", autor: "Quaggio, Giulia", any: "2014", titol: "La cultura en Transición. Reconciliación y política cultural en España, 1976-1986", tipus: "Llibre", editorial: "Alianza Editorial", lloc: "Madrid" },
+      { id: "b14", autor: "Ribas, José", any: "2007", titol: "Los 70 a destajo: Ajoblanco y libertad", tipus: "Llibre", editorial: "RBA Libros", lloc: "Barcelona" },
+      { id: "b15", autor: "Sierra i Fabra, Jordi", any: "1977", titol: "Història i poder del rock català", tipus: "Llibre", editorial: "Ediciones Edicomunicación [Reeditat per Enderrock, 2007]", lloc: "Barcelona" },
+      { id: "b16", autor: "Val Ripollés, Fernán del", any: "2017", titol: "Rockeros insurgentes, modernos complacientes: juventud, rock y política en España (1975-1985)", tipus: "Llibre", editorial: "Fundación SGAE", lloc: "Madrid" },
+      { id: "b17", autor: "Vilarós, Teresa M.", any: "1998", titol: "El mono del desencanto. Una crítica cultural de la Transición española (1973-1993)", tipus: "Llibre", editorial: "Siglo XXI de España Editores", lloc: "Madrid" },
+    ],
   },
   {
-    id: "bib-rock-laietano",
-    autor: "—",
-    any: "—",
-    titol: "El Rock Laietano: La Revolución Contracultural de Barcelona 1970–1980",
-    tipus: "Llibre",
+    id: "bib-capitols",
+    titol: "Capítols de llibres i catàlegs d'exposicions",
+    entrades: [
+      { id: "c1", autor: "Guillamon, J.; Nubla, V.; Riba, P. (coords.)", any: "1995", titol: "Alter Músiques Natives", tipus: "Catàleg", editorial: "Generalitat de Catalunya, Departament de Cultura (KRTU)", lloc: "Barcelona" },
+      { id: "c2", autor: "Mainer, José-Carlos", any: "2006", titol: "La cultura de la Transición o la Transición como cultura", tipus: "Capítol", editorial: "Ediciones Península", lloc: "Barcelona" },
+      { id: "c3", autor: "Turtós, Jordi", any: "1995", titol: "Progressius i laietans", tipus: "Capítol", editorial: "Generalitat de Catalunya, Departament de Cultura", lloc: "Barcelona" },
+    ],
   },
   {
-    id: "bib-raices",
-    autor: "—",
-    any: "—",
-    titol:
-      "Raíces de la Resistencia: Espacios, Figuras e Identidad en la Contracultura del Rock Laietano",
-    tipus: "Llibre",
+    id: "bib-articles",
+    titol: "Articles de revistes acadèmiques",
+    entrades: [
+      { id: "a1", autor: "Gómez Vaquero, Laura", any: "2014", titol: "From Political to Industrial Vindication: Culture during the Spanish Transition through the Analysis of Three Music Documentaries", tipus: "Article", editorial: "Kamchatka. Revista de análisis cultural, 4", lloc: "pp. 9-35" },
+      { id: "a2", autor: "Iglesias, Iván", any: "2024", titol: "Cosmopolitismo e hibridación en la música popular barcelonesa: la ona laietana (1973-1979)", tipus: "Article", editorial: "Debats. Revista de cultura, poder y sociedad, 138(1)", lloc: "pp. 27-44" },
+      { id: "a3", autor: "Val Ripollés, F.; Martín Pérez Colman, C.", any: "2024", titol: "¿El rock ha muerto? ¡Viva la sociología del rock!", tipus: "Article", editorial: "Debats. Revista de cultura, poder y sociedad, 138(1)", lloc: "pp. 7-17" },
+    ],
   },
   {
-    id: "bib-dudda",
-    autor: "Dudda, G.",
-    any: "2019",
-    titol: "La historia de Zeleste y la música layetana (1973–1978)",
-    tipus: "Web",
-    editorial: "Cualia.es",
-    url: "https://cualia.es/la-historia-de-zeleste-y-la-musica-layetana-1973-1978",
+    id: "bib-tesis",
+    titol: "Tesis doctorals i treballs acadèmics",
+    entrades: [
+      { id: "t1", autor: "Arribas García, Miguel", any: "2015", titol: "El jazz en Barcelona durante la Transición Española (1975-1982)", tipus: "TFM", editorial: "Universidad de Valladolid" },
+      { id: "t2", autor: "Erra Picas, Jordi", any: "2014", titol: "El rock progressiu a Catalunya (1969-1973): La contracultura a principis dels anys setanta", tipus: "TFG", editorial: "Universitat de Barcelona" },
+      { id: "t3", autor: "Güell Pagès, Pol", any: "2016", titol: "Barcelona 1970-1980: Un viatge per la contracultura i l'Ona Laietana", tipus: "TFG", editorial: "Universitat Autònoma de Barcelona" },
+      { id: "t4", autor: "Muriana Reig, Ivan", any: "2017", titol: "La Catalunya punk: Una aproximació a l'articulació i desenvolupament del punk a Catalunya", tipus: "TFG", editorial: "Universitat Oberta de Catalunya (UOC)" },
+      { id: "t5", autor: "Posa Guinea, Pablo", any: "2010", titol: "La música progresiva y underground en Barcelona: Una revisión musicológica", tipus: "Llibre", editorial: "Bubok Publishing", lloc: "Madrid" },
+      { id: "t6", autor: "Val Ripollés, Fernán del", any: "2014", titol: "Rockeros insurgentes, modernos complacientes: juventud, rock y política en España (1975-1985)", tipus: "Tesi doctoral", editorial: "Universidad Complutense de Madrid" },
+    ],
   },
   {
-    id: "bib-roca",
-    autor: "Roca, X.",
-    any: "2011",
-    titol: "La història de Zeleste i l'Ona Laietana",
-    tipus: "Article",
-    editorial: "El Punt Avui",
-    url: "https://www.elpuntavui.cat/article/474780-la-historia-de-zeleste-i-lona-laietana.html",
+    id: "bib-premsa",
+    titol: "Premsa històrica i publicacions periòdiques (Hemeroteca)",
+    entrades: [
+      { id: "p1", autor: "—", any: "1974-1980", titol: "Ajoblanco", tipus: "Revista", editorial: "Barcelona" },
+      { id: "p2", autor: "—", any: "1975-1979", titol: "Disco Exprés", tipus: "Revista", editorial: "Pamplona/Madrid" },
+      { id: "p3", autor: "—", any: "1994", titol: "El Temps", tipus: "Revista", editorial: "València" },
+      { id: "p4", autor: "—", any: "1983-1985", titol: "La Luna de Madrid", tipus: "Revista", editorial: "Madrid" },
+      { id: "p5", autor: "—", any: "1975-1979", titol: "Ozono", tipus: "Revista", editorial: "Madrid" },
+      { id: "p6", autor: "—", any: "1973-1985", titol: "Popular 1", tipus: "Revista", editorial: "Barcelona" },
+      { id: "p7", autor: "—", any: "1978-1981", titol: "Sal Común", tipus: "Revista", editorial: "Barcelona" },
+      { id: "p8", autor: "—", any: "1974-1980", titol: "Star", tipus: "Revista", editorial: "Barcelona" },
+      { id: "p9", autor: "—", any: "1974-1981", titol: "Vibraciones", tipus: "Revista", editorial: "Barcelona" },
+    ],
   },
   {
-    id: "bib-rockdelux",
-    autor: "—",
-    any: "2024",
-    titol: "50 años de la ona laietana: una leyenda olvidada",
-    tipus: "Revista",
-    editorial: "Rockdelux",
+    id: "bib-audiovisual",
+    titol: "Documentals i fons audiovisuals",
+    entrades: [
+      { id: "d1", autor: "Arasanz, Daniel (dir.)", any: "2010", titol: "Venid a las cloacas. La historia de La Banda Trapera del Río", tipus: "Documental", editorial: "Magoproduction" },
+      { id: "d2", autor: "Bellmunt, Francesc (dir.)", any: "1975", titol: "Canet Rock", tipus: "Documental", editorial: "Profilmes" },
+      { id: "d3", autor: "Morrosko Vila-San-Juan (dir.)", any: "2010", titol: "Barcelona era una festa (underground 1970–1980)", tipus: "Documental TV", editorial: "TV3 / Séptimo Elemento" },
+      { id: "d4", autor: "Turtós, Jordi (dir.)", any: "2011", titol: "To de re per a mandolina i clarinet", tipus: "Documental TV", editorial: "Televisió de Catalunya (TV3)" },
+      { id: "d5", autor: "Dudda, Gernot", any: "2019", titol: "La historia de Zeleste y la música layetana (1973–1978)", tipus: "Web", editorial: "Cualia.es", url: "https://cualia.es/la-historia-de-zeleste-y-la-musica-layetana-1973-1978" },
+      { id: "d6", autor: "Roca, Xavier", any: "2011", titol: "La història de Zeleste i l'Ona Laietana", tipus: "Article", editorial: "El Punt Avui", url: "https://www.elpuntavui.cat/article/474780-la-historia-de-zeleste-i-lona-laietana.html" },
+      { id: "d7", autor: "Ayuntamiento de Barcelona", any: "2024", titol: "Tribute to the Barcelona of Zeleste and Ona Laietana [espectacle amb 37 músics]", tipus: "Web", editorial: "barcelona.cat", url: "https://www.barcelona.cat/barcelonacultura/en/barcelona-cultura/tribute-to-the-barcelona-of-zeleste-and-ona-laietana_1434464" },
+    ],
   },
   {
-    id: "bib-recopilatori",
-    autor: "VV. AA.",
-    any: "2009",
-    titol: "Música Laietana. Zeleste [recopilatori, 2 CD, 19 cançons, 2 h 01 min]",
-    tipus: "Recopilatori",
-    editorial: "Picap Records",
-    lloc: "Barcelona",
-    url: "https://open.spotify.com/album/3iKphHnXn5xLVzabQytEfR",
-  },
-  {
-    id: "bib-barcelona",
-    autor: "Ayuntamiento de Barcelona",
-    any: "2024",
-    titol:
-      "Tribute to the Barcelona of Zeleste and Ona Laietana [espectacle amb 37 músics]",
-    tipus: "Web",
-    editorial: "barcelona.cat",
-    lloc: "Barcelona",
-    url: "https://www.barcelona.cat/barcelonacultura/en/barcelona-cultura/tribute-to-the-barcelona-of-zeleste-and-ona-laietana_1434464",
-  },
-  {
-    id: "bib-wikipedia",
-    autor: "VV. AA.",
-    any: "—",
-    titol:
-      "Articles sobre música laietana, Zeleste i figures del moviment",
-    tipus: "Web",
-    editorial: "Viquipèdia",
-    url: "https://ca.wikipedia.org/wiki/M%C3%BAsica_laietana",
+    id: "bib-discografia",
+    titol: "Discografia de referència seleccionada",
+    entrades: [
+      { id: "di1", autor: "Companyia Elèctrica Dharma", any: "1975", titol: "Diumenge [LP]", tipus: "LP", editorial: "Zeleste / Edigsa", lloc: "Barcelona" },
+      { id: "di2", autor: "Ia & Batiste", any: "1975", titol: "Chichonera's Cat [LP]", tipus: "LP", editorial: "Òliva / Edigsa", lloc: "Barcelona" },
+      { id: "di3", autor: "Màquina!", any: "1970", titol: "Why? [LP]", tipus: "LP", editorial: "Diábolo / Als 4 Vents", lloc: "Barcelona" },
+      { id: "di4", autor: "Música Dispersa", any: "1970", titol: "Música Dispersa [LP]", tipus: "LP", editorial: "Diábolo / Als 4 Vents", lloc: "Barcelona" },
+      { id: "di5", autor: "Música Urbana", any: "1976", titol: "Música Urbana [LP]", tipus: "LP", editorial: "Zeleste / Edigsa", lloc: "Barcelona" },
+      { id: "di6", autor: "Orquestra Mirasol", any: "1974", titol: "Salsa catalana [LP]", tipus: "LP", editorial: "Zeleste / Edigsa", lloc: "Barcelona" },
+      { id: "di7", autor: "Pau Riba", any: "1970", titol: "Diòptria I [LP]", tipus: "LP", editorial: "Concèntric", lloc: "Barcelona" },
+      { id: "di8", autor: "Secta Sònica", any: "1976", titol: "Fred Pedralbes [LP]", tipus: "LP", editorial: "Zeleste / Edigsa", lloc: "Barcelona" },
+      { id: "di9", autor: "Sisa", any: "1975", titol: "Qualsevol nit pot sortir el sol [LP]", tipus: "LP", editorial: "Zeleste / Edigsa", lloc: "Barcelona" },
+      { id: "di10", autor: "Diversos Autors", any: "2009", titol: "Música Laietana – Zeleste [2 CD Compilation]", tipus: "Recopilatori", editorial: "Picap Records", lloc: "Barcelona", url: "https://open.spotify.com/album/3iKphHnXn5xLVzabQytEfR" },
+    ],
   },
 ];
 
@@ -1660,6 +1681,7 @@ export const navegacio = [
   { id: "obres", etiqueta: "Obres" },
   { id: "recopilatori", etiqueta: "Recopilatori" },
   { id: "doc-visuals", etiqueta: "Doc. Visuals" },
+  { id: "mapa-mental", etiqueta: "Mapa Mental" },
   { id: "llegat", etiqueta: "Llegat" },
   { id: "fonts", etiqueta: "Fonts" },
 ];

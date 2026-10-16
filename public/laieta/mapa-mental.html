@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa Mental — Ona Laietana</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/markmap-view@0.15.4"></script>
+<style>
+  :root{--bg:#141312;--text:#f3ede2;--text-muted:#8a8580;--amber:#e08a3c;--terra:#d9534f;--gold:#f4b41a;--green:#6b9b6b;--panel-bg:rgba(20,19,18,0.92);--border:rgba(224,138,60,0.2);}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif;overflow:hidden;}
+  #mindmap-container{width:100%;height:100vh;position:relative;}
+  #mindmap-svg{width:100%;height:100%;}
+  .markmap-node foreignObject div{color:var(--text);font-size:15px;font-weight:500;cursor:pointer;line-height:1.4;}
+  .markmap-node foreignObject div:hover{color:var(--gold);}
+  .expand-hint{fill:var(--amber);stroke:var(--bg);stroke-width:1.5;cursor:pointer;transition:fill .2s;}
+  .expand-hint:hover{fill:var(--gold);}
+  .expand-hint-text{fill:var(--bg);font-size:10px;font-weight:bold;text-anchor:middle;dominant-baseline:central;pointer-events:none;}
+  .toolbar{position:fixed;top:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--panel-bg);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:999px;z-index:100;box-shadow:0 4px 24px rgba(0,0,0,0.4);}
+  .toolbar input{background:transparent;border:none;color:var(--text);font-size:13px;width:160px;outline:none;}
+  .toolbar input::placeholder{color:var(--text-muted);}
+  .toolbar button{background:transparent;border:1px solid var(--border);color:var(--text);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .2s;font-weight:bold;}
+  .toolbar button:hover{background:var(--amber);color:var(--bg);border-color:var(--amber);}
+  .side-panel{position:fixed;top:0;right:-420px;width:400px;height:100vh;background:var(--panel-bg);backdrop-filter:blur(16px);border-left:1px solid var(--border);padding:32px 24px;z-index:200;transition:right .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
+  .side-panel.open{right:0;}
+  .side-panel .badge{display:inline-block;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;}
+  .side-panel h3{font-size:22px;font-weight:700;margin-bottom:12px;color:var(--text);line-height:1.3;}
+  .side-panel p{font-size:14px;line-height:1.65;color:var(--text-muted);}
+  .side-panel .disc-list{margin-top:16px;border-top:1px solid var(--border);padding-top:16px;}
+  .side-panel .disc-list h4{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--amber);margin-bottom:10px;}
+  .side-panel .disc-item{display:flex;gap:10px;padding:6px 0;font-size:13px;color:var(--text-muted);border-bottom:1px solid rgba(255,255,255,0.05);}
+  .side-panel .disc-year{color:var(--gold);font-weight:600;min-width:36px;}
+  .side-panel .close-btn{position:absolute;top:16px;right:16px;background:transparent;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  .side-panel .close-btn:hover{background:rgba(255,255,255,0.1);color:var(--text);}
+  .badge.root{background:var(--gold);color:#1a1918;}
+  .badge.escena{background:var(--amber);color:#1a1918;}
+  .badge.banda{background:var(--terra);color:#fff;}
+  .badge.sala{background:rgba(224,138,60,0.2);color:var(--amber);border:1px solid var(--amber);}
+  .badge.festival{background:rgba(244,180,26,0.15);color:var(--gold);border:1px solid var(--gold);}
+  .badge.medio{background:rgba(217,83,79,0.15);color:var(--terra);border:1px solid var(--terra);}
+  .badge.disc{background:rgba(107,155,107,0.15);color:var(--green);border:1px solid var(--green);}
+  .hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--text-muted);background:var(--panel-bg);padding:6px 16px;border-radius:999px;border:1px solid var(--border);backdrop-filter:blur(8px);}
+  @media(max-width:640px){.toolbar input{width:100px;}.side-panel{width:100%;right:-100%;}}
+</style>
+</head>
+<body>
+<div id="mindmap-container"><svg id="mindmap-svg"></svg></div>
+<div class="toolbar">
+  <input type="text" id="search" placeholder="Cercar..." />
+  <button id="zoom-in" title="Zoom +">+</button>
+  <button id="zoom-out" title="Zoom −">−</button>
+  <button id="reset" title="Reset">⟲</button>
+  <button id="expand-all" title="Expandir tot">⤢</button>
+  <button id="collapse-all" title="Plegar tot">⤣</button>
+</div>
+<div class="side-panel" id="side-panel">
+  <button class="close-btn" id="close-panel">×</button>
+  <span class="badge" id="panel-badge"></span>
+  <h3 id="panel-title"></h3>
+  <p id="panel-desc"></p>
+  <div class="disc-list" id="panel-discs" style="display:none;"><h4>Discs clau</h4><div id="disc-items"></div></div>
+</div>
+<div class="hint">Clica el <strong>+</strong> d'un node per expandir-lo · Arrossegueu per moure · Roda per zoom</div>
+<script>
+// === DATA COMPLETA ===
+const FULL_TREE = {
+  type:'root', content:'Ona Laietana i Contracultura (1970s)',
+  desc:'Moviment musical barceloní de la dècada dels 70 que fusionà jazz-rock, tradició catalana, flamenc i rumba.',
+  children:[
+    {content:'Espais i Circuits',type:'escena',desc:'Sales, festivals i circuits que articularen el moviment.',children:[
+      {content:'Sala Zeleste (1973)',type:'sala',desc:'Fundada per Víctor Jou al Born. Epicentre. Línia Zeleste-Edigsa (1974).',discs:[]},
+      {content:'Canet Rock (1975-1978)',type:'festival',desc:'Festival fundacional a Canet de Mar. Pau Riba, Sisa, Plateria, Iceberg, Dharma.',discs:[]},
+      {content:'Festival Iris',type:'festival',desc:'Cicle complementari de l\'escena laietana.',discs:[]},
+    ]},
+    {content:'Pioners de l\'Underground',type:'escena',desc:'Formacions antecessores.',children:[
+      {content:'Màquina!',type:'banda',desc:'Duo Tapi i Herrera. Why? (1970), ambició orquestral. Pont yeyé→avantguarda.',discs:[{year:'1970',title:'Why?'}]},
+      {content:'Om (Toti Soler i Jordi Sabatés)',type:'banda',desc:'Folk mediterrani + suite progresiva.',discs:[]},
+      {content:'Pan & Regaliz',type:'banda',desc:'Psicodèlia primerenca. Cessió (1971).',discs:[{year:'1971',title:'Pan & Regaliz (cessió)'}]},
+    ]},
+    {content:'Jazz-Rock i Fusió Mediterrània',type:'escena',desc:'El nucli fusió.',children:[
+      {content:'Companyia Elèctrica Dharma',type:'banda',desc:'Síntesi perfecte. Tramuntana (1977), obra mestra. Fenomen de masses.',discs:[{year:'1975',title:'Diumenge'},{year:'1976',title:'L\'Oucomballa'},{year:'1977',title:'Tramuntana'},{year:'1978',title:'L\'àngel de la dansa'}]},
+      {content:'Música Urbana',type:'banda',desc:'Amargós i Benavent. Iberia (1978).',discs:[{year:'1978',title:'Música Urbana'},{year:'1978',title:'Iberia'}]},
+      {content:'Barcelona Traction',type:'banda',desc:'Art-pop barroc (1975).',discs:[{year:'1975',title:'Barcelona Traction (LP)'}]},
+      {content:'Orquestra Mirasol',type:'banda',desc:'Primer so laietà. Salsa catalana (1974).',discs:[{year:'1974',title:'Salsa catalana'},{year:'1975',title:'D\'oca a oca'},{year:'1977',title:'La Boqueria'}]},
+    ]},
+    {content:'Cançó Heterodoxa i Folk Galàctic',type:'escena',desc:'L\'ala cantautor + psicodèlica.',children:[
+      {content:'Jaume Sisa',type:'banda',desc:'Qualsevol nit pot sortir el sol (1975). Himne de generació. Cabaret galàctic.',discs:[{year:'1971',title:'Música Dispersa'},{year:'1973',title:'Orgia'},{year:'1975',title:'Qualsevol nit pot sortir el sol'},{year:'1976',title:'Galeta Galàctica'},{year:'1977',title:'La Catedral'}]},
+      {content:'Pau Riba',type:'banda',desc:'Dioptria (1970-71). Fita cabdal. Nét dels poetes Carles Riba i Clementina Arderiu.',discs:[{year:'1969',title:'Miniatura'},{year:'1970',title:'Dioptria'},{year:'1971',title:'Jo, la Donya i el Gripau'}]},
+      {content:'Oriol Tramvia',type:'banda',desc:'Figura del Grup de Folk.',discs:[]},
+    ]},
+    {content:'Difusió i Premsa Marginal',type:'medio',desc:'Publicacions, segells i mitjans.',children:[
+      {content:'Revista Vibraciones',type:'medio',desc:'Premsa contracultural.',discs:[]},
+      {content:'Revista Star',type:'medio',desc:'Publicació marginal.',discs:[]},
+      {content:'Ajoblanco',type:'medio',desc:'Editada per Pepe Ribas.',discs:[]},
+      {content:'Segell Zeleste/Edigsa',type:'medio',desc:'Línia discogràfica (1974).',discs:[]},
+    ]},
+    {content:'Músics de Sessió i Figures Clau',type:'escena',desc:'Instrumentistes i figures clau.',children:[
+      {content:'Tete Montoliu',type:'banda',desc:'Pianista universal (1933-1997). Vampyria (1974).',discs:[{year:'1974',title:'Vampyria (amb Jordi Sabatés)'}]},
+      {content:'Toti Soler',type:'banda',desc:'Sardana flamenca (1973).',discs:[{year:'1973',title:'El Gat Blanc'}]},
+      {content:'Jordi Sabatés',type:'banda',desc:'Pianista precursor. Vampyria (1974).',discs:[{year:'1974',title:'Vampyria (amb Tete Montoliu)'}]},
+      {content:'Gato Pérez',type:'banda',desc:'Li atribueix l\'encuny «Ona Laietana».',discs:[{year:'1978',title:'Carabruta'}]},
+      {content:'Víctor Jou',type:'sala',desc:'Fundador i motor de Zeleste.',discs:[]},
+      {content:'Pegasus',type:'banda',desc:'Supergrup postlaietà (1982-1997).',discs:[{year:'1982',title:'Nuevos encuentros'},{year:'1987',title:'Simfonia d\'una gran ciutat'}]},
+    ]},
+  ]
+};
+
+// Afegir discs com a nodes fills
+function addDiscsAsChildren(node){
+  if(node.discs&&node.discs.length>0){
+    node.children=(node.children||[]).concat(node.discs.map(d=>({content:d.title+' ('+d.year+')',type:'disc',desc:'Disc de '+node.content+'. Any '+d.year+'.',discs:[]})));
+  }
+  if(node.children)node.children.forEach(addDiscsAsChildren);
+}
+addDiscsAsChildren(FULL_TREE);
+
+// Adaptar
+function adapt(node){
+  const n={content:node.content,payload:{}};
+  if(node.type)n.payload.type=node.type;
+  if(node.desc)n.payload.desc=node.desc;
+  if(node.discs)n.payload.discs=node.discs;
+  if(node.children)n.children=node.children.map(adapt);
+  return n;
+}
+const fullData=adapt(FULL_TREE);
+
+// Estratègia: dades amb branques plegades però marcades com a expandibles
+function makeInitialData(){
+  const n=JSON.parse(JSON.stringify(fullData));
+  if(n.children){
+    n.children.forEach(branch=>{
+      branch._savedChildren=branch.children;
+      delete branch.children;
+      branch._expandable=true;
+      // Els fills guardats també poden ser expandibles (tenir els seus propis _savedChildren)
+      if(branch._savedChildren){
+        branch._savedChildren.forEach(child=>{
+          if(child.children){
+            child._savedChildren=child.children;
+            delete child.children;
+            child._expandable=true;
+          }
+        });
+      }
+    });
+  }
+  return n;
+}
+
+let DATA=makeInitialData();
+
+// === RENDER ===
+const svgEl=document.getElementById('mindmap-svg');
+let mm;
+
+function render(){
+  const {Markmap}=window.markmap;
+  mm=Markmap.create(svgEl,{
+    autoResize:true,
+    duration:400,
+    maxWidth:280,
+    spacingHorizontal:80,
+    spacingVertical:14,
+    paddingX:8,
+    color:(node)=>{
+      const t=node.payload?.type||'';
+      const map={root:'#f4b41a',escena:'#e08a3c',banda:'#d9534f',sala:'#e08a3c',festival:'#f4b41a',medio:'#d9534f',disc:'#6b9b6b'};
+      return map[t]||'#e08a3c';
+    },
+  },DATA);
+
+  // DESPRÉS de crear, afegir indicadors "+" als nodes expandibles
+  setTimeout(()=>addExpandIndicators(),600);
+
+  // Click handler
+  svgEl.addEventListener('click',(e)=>{
+    // Si es clica un indicador "+" → expandir/plegar aquell node
+    if(e.target.classList&&e.target.classList.contains('expand-hint')){
+      const g=e.target.closest('g.markmap-node');
+      if(g){
+        const fo=g.querySelector('foreignObject');
+        if(fo){
+          const content=fo.textContent.trim();
+          toggleNode(content);
+        }
+      }
+      e.stopPropagation();
+      return;
+    }
+    // Si es clica un node (text o cercle) → toggle + obrir panel
+    const g=e.target.closest('g.markmap-node');
+    if(!g)return;
+    const fo=g.querySelector('foreignObject');
+    if(!fo)return;
+    const content=fo.textContent.trim();
+    toggleNode(content);
+    openPanelByContent(content);
+  });
+}
+
+function toggleNode(content){
+  function search(node){
+    if(node.content===content){
+      if(node._savedChildren||node._expandable){
+        if(node.children){
+          // Està expandit → plegar
+          node._savedChildren=node.children;
+          delete node.children;
+          node._expandable=true;
+        }else if(node._savedChildren){
+          // Està plegat → expandir
+          node.children=node._savedChildren;
+          // Marcar fills que tenen _savedChildren com a expandibles
+          if(node.children){
+            node.children.forEach(child=>{
+              if(child._savedChildren&&!child.children){
+                child._expandable=true;
+              }
+            });
+          }
+          delete node._expandable;
+        }
+        if(mm){mm.setData(DATA);setTimeout(()=>addExpandIndicators(),300);}
+        return true;
+      }
+    }
+    if(node.children){
+      for(const c of node.children){if(search(c))return true;}
+    }
+    return false;
+  }
+  search(DATA);
+}
+
+// Afegir indicadors "+" als nodes expandibles
+// markmap-view 0.15.4 usa: g.markmap-node + foreignObject > div per al text
+function addExpandIndicators(){
+  // Netejar indicadors anteriors
+  svgEl.querySelectorAll('.expand-hint-group').forEach(el=>el.remove());
+
+  // Obtenir tots els nodes del SVG
+  const nodes=svgEl.querySelectorAll('g.markmap-node');
+  nodes.forEach(g=>{
+    // Obtenir el text del node via foreignObject > div
+    const fo=g.querySelector('foreignObject');
+    if(!fo)return;
+    const content=(fo.textContent||'').trim();
+    if(!content)return;
+
+    // Comprovar si aquest node és expandible a les nostres dades
+    const isExpandable=findExpandable(DATA,content);
+    if(!isExpandable)return;
+
+    // Obtenir la posició del foreignObject per col·locar el "+" al costat
+    const bbox=fo.getBBox();
+    const x=bbox.x+bbox.width+10;
+    const y=bbox.y+bbox.height/2;
+
+    // Crear grup per a l'indicador "+" usant createElementNS (SVG namespace)
+    const grp=document.createElementNS('http://www.w3.org/2000/svg','g');
+    grp.setAttribute('class','expand-hint-group');
+    grp.setAttribute('transform','translate('+(x+8)+','+y+')');
+
+    const circle=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('class','expand-hint');
+    circle.setAttribute('r','8');
+    circle.setAttribute('cx','0');
+    circle.setAttribute('cy','0');
+
+    const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('class','expand-hint-text');
+    txt.setAttribute('x','0');
+    txt.setAttribute('y','1');
+    txt.textContent='+';
+
+    grp.appendChild(circle);
+    grp.appendChild(txt);
+    g.appendChild(grp);
+  });
+}
+
+function findExpandable(node,content){
+  if(node.content===content&&(node._expandable||(node._savedChildren&&!node.children)))return true;
+  if(node.children){
+    for(const c of node.children){if(findExpandable(c,content))return true;}
+  }
+  return false;
+}
+
+function openPanelByContent(content){
+  const node=findNode(fullData,content);
+  if(node)openPanel(node);
+}
+function findNode(root,content){
+  if(root.content===content)return root;
+  if(!root.children)return null;
+  for(const c of root.children){const r=findNode(c,content);if(r)return r;}
+  return null;
+}
+
+// === SIDE PANEL ===
+const panel=document.getElementById('side-panel');
+const badge=document.getElementById('panel-badge');
+const title=document.getElementById('panel-title');
+const desc=document.getElementById('panel-desc');
+const discList=document.getElementById('panel-discs');
+const discItems=document.getElementById('disc-items');
+
+function openPanel(node){
+  const t=node.payload?.type||'escena';
+  const d=node.payload?.desc||'';
+  const discs=node.payload?.discs||[];
+  badge.textContent=t;
+  badge.className='badge '+t;
+  title.textContent=node.content;
+  desc.textContent=d;
+  if(discs.length>0){
+    discList.style.display='block';
+    discItems.innerHTML=discs.map(d=>'<div class="disc-item"><span class="disc-year">'+d.year+'</span><span>'+d.title+'</span></div>').join('');
+  }else{discList.style.display='none';}
+  panel.classList.add('open');
+}
+document.getElementById('close-panel').addEventListener('click',()=>panel.classList.remove('open'));
+
+// === TOOLBAR ===
+document.getElementById('zoom-in').addEventListener('click',()=>{
+  if(mm&&mm.zoom)d3.select(svgEl).transition().duration(300).call(mm.zoom.scaleBy,1.4);
+});
+document.getElementById('zoom-out').addEventListener('click',()=>{
+  if(mm&&mm.zoom)d3.select(svgEl).transition().duration(300).call(mm.zoom.scaleBy,0.7);
+});
+document.getElementById('reset').addEventListener('click',()=>{
+  if(mm&&mm.zoom)d3.select(svgEl).transition().duration(400).call(mm.zoom.transform,d3.zoomIdentity);
+  DATA=makeInitialData();
+  if(mm){mm.setData(DATA);setTimeout(()=>addExpandIndicators(),600);}
+});
+document.getElementById('expand-all').addEventListener('click',()=>{
+  DATA=JSON.parse(JSON.stringify(fullData));
+  if(mm){mm.setData(DATA);setTimeout(()=>addExpandIndicators(),600);}
+});
+document.getElementById('collapse-all').addEventListener('click',()=>{
+  DATA=makeInitialData();
+  if(mm){mm.setData(DATA);setTimeout(()=>addExpandIndicators(),600);}
+});
+
+window.addEventListener('load',()=>{setTimeout(render,100);});
+</script>
+</body>
+</html>

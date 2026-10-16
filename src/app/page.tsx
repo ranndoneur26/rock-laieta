@@ -10,6 +10,7 @@ import { CartografiaMoviment } from "@/components/laieta/cartografia-moviment";
 import { ObresClau } from "@/components/laieta/obres-clau";
 import { Tracklist } from "@/components/laieta/tracklist";
 import { DocumentsVisuals } from "@/components/laieta/documents-visuals";
+import { MapaMental } from "@/components/laieta/mapa-mental";
 import { Legacy } from "@/components/laieta/legacy";
 import { Sources } from "@/components/laieta/sources";
 import { SiteFooter } from "@/components/laieta/site-footer";
@@ -32,6 +33,7 @@ export default function Home() {
         <ObresClau />
         <Tracklist />
         <DocumentsVisuals />
+        <MapaMental />
         <Legacy />
         <Sources />
       </main>
