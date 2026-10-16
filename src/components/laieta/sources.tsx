@@ -17,7 +17,7 @@ export function Sources() {
     <section id="fonts" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
-          index="16"
+          index="17"
           kicker="Fonts"
           title="Fonts documentals consolidades"
           description="Contingut reconstruït i enriquit a partir d'aquestes fonts primàries, secundàries i recursos en línia, en homenatge al moviment."

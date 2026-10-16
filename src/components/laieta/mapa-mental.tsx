@@ -7,7 +7,7 @@ export function MapaMental() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-8">
           <div className="flex items-center gap-3 text-white/80">
-            <span className="font-mono text-xs tracking-widest text-white">14</span>
+            <span className="font-mono text-xs tracking-widest text-white">15</span>
             <span className="h-px w-8 bg-white/30" />
             <span className="font-mono text-[0.7rem] uppercase tracking-[0.25em] text-white/60">
               Mapa Mental

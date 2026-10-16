@@ -158,6 +158,10 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5.5rem;
+    /* Prevenir overflow horitzontal a mobile */
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   body {
     @apply bg-background text-foreground;
@@ -166,6 +170,12 @@
     line-height: 1.65;
     background-color: var(--bg-main);
     background-image: var(--gradient-hero);
+    /* Prevenir overflow horitzontal a mobile */
+    overflow-x: hidden;
+    /* Evitar zoom automàtic iOS en inputs */
+    -webkit-text-size-adjust: 100%;
+    /* Suport per safe-area (iPhone X+) */
+    overscroll-behavior-y: none;
     background-attachment: fixed;
     color: #ffffff;
   }

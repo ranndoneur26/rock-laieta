@@ -10,6 +10,7 @@ import { GrafoRelacions } from "@/components/laieta/grafo-relacions";
 import { CartografiaMoviment } from "@/components/laieta/cartografia-moviment";
 import { RutaMusical } from "@/components/laieta/ruta-musical";
 import { ObresClau } from "@/components/laieta/obres-clau";
+import { MosaicInteractiu } from "@/components/laieta/mosaic-interactiu";
 import { Tracklist } from "@/components/laieta/tracklist";
 import { DocumentsVisuals } from "@/components/laieta/documents-visuals";
 import { MapaMental } from "@/components/laieta/mapa-mental";
@@ -35,6 +36,7 @@ export default function Home() {
         <CartografiaMoviment />
         <RutaMusical />
         <ObresClau />
+        <MosaicInteractiu />
         <Tracklist />
         <DocumentsVisuals />
         <MapaMental />

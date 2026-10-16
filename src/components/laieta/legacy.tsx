@@ -8,7 +8,7 @@ export function Legacy() {
     <section id="llegat" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
-          index="15"
+          index="16"
           kicker="Llegat"
           title="La flama que no s'apaga"
           description={llegat.introduccio}

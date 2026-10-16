@@ -131,8 +131,343 @@ export const manifest: Citacio[] = [
   },
 ];
 
-export const contextHistoric = {
+export type ContextIcon =
+  | "landmark"
+  | "music"
+  | "users"
+  | "globe"
+  | "book"
+  | "theater"
+  | "calendar"
+  | "disc"
+  | "compass";
+
+export interface ContextEnllacIntern {
+  id: string;
+  etiqueta: string;
+}
+
+export interface ContextEnllacExtern {
+  url: string;
+  etiqueta: string;
+  font?: string;
+}
+
+export interface ContextBloc {
+  id: string;
+  titol: string;
+  kicker: string;
+  icona: ContextIcon;
+  paragrafs: string[];
+  enllacosInterns?: ContextEnllacIntern[];
+  enllacosExterns?: ContextEnllacExtern[];
+  destacat?: boolean;
+}
+
+export const contextHistoric: {
+  titol: string;
+  subtitol: string;
+  intro: string;
+  blocs: ContextBloc[];
+  cos: string[];
+} = {
   titol: "Tardofranquisme, transició i contracultura",
+  subtitol: "Els anys decisius que van fer possible l'Ona Laietana",
+  intro:
+    "L'Ona laietana irromp en un moment històric decisiu, sobretot a nivell polític, a l'Espanya de començaments dels anys setanta: els darrers anys del franquisme i l'inici de la transició. Creix sobre el substrat de la Nova Cançó i del Grup de Folk, i dialoga amb fenòmens coetanis com el rock andaluz. És, en sentit ple, una revolució contracultural barcelonina. Expandiu els blocs següents per aprofundir en cadascun dels vessants del context.",
+  blocs: [
+    {
+      id: "marc-politic",
+      titol: "El marc polític: tardofranquisme i transició",
+      kicker: "Política",
+      icona: "landmark",
+      destacat: true,
+      paragrafs: [
+        "L'Ona laietana neix i mor, cronològicament, dins del cicle 1969–1985 — és a dir, del darrer franquisme al primer socialisme en el poder. Aquesta coincidència no és anecdòtica: el moviment és fill directe de la contradicció entre una dictadura en decadència i una societat civil que, amb prudència però amb urgència, començava a ocupar espais de llibertat. La mort de Franco el 20 de novembre de 1975 arriba al bell mig del cicle, i les cinc edicions del Canet Rock (1975–1980) coincideixen, gairebé dia per dia, amb els cinc primers anys de la transició política.",
+        "El marc legal continuava sent restrictiu. La Llei d'Associacions de 1964 obligava els grups musicals a constituir-se com a societats civils amb permís governatiu; la Llei de Premsa i Imprenta de 1966 (coneguda com a «Llei Fraga») havia abolit la censura prèvia sobre impremta però mantenia la censura sobre discos, espectacles i ràdio. Cada disc d'Edigsa havia de passar per la supervisió de la Delegació Nacional de Premsa; cada concert requerit autorització del Governador Civil. El català, prohibit en actes públics des de 1939, era tolerat en discs i recitals amb controls arbitraris.",
+        "La paradoxal tolerància cap a la Nova Cançó és clau per entendre l'Ona: la dictadura va permetre — i de vegades va fomentar discretament — una cultura catalana «cívica» que considerava inofensiva, mentre reprimia la política explícita. Quan Sisa canta «Qualsevol nit pot sortir el sol» (1975) o Pau Riba edita Dioptria (1971), treballen dins d'aquest marge ambigu. Els anys 1975–1978 (de la mort del Caudillo a la Constitució) veuen néixer el pic creatiu del moviment: Tramuntana de Dharma (1977), Coses Nostres d'Iceberg (1976), Fred Pedralbes de Secta Sònica (1976).",
+        "Els primers anys de democràcia van portar un optimisme cultural efímer: el català als instituts, la Generalitat restaurada (1977), l'Estatut de Sau (1979). Però també van portar la crisi econòmica de 1978-1982, l'agonia industrial barcelonina i l'arribada de la mogida madrilenya, que desplaçaria el centre cultural del país. Quan l'Ona mor — cap al 1980-1982 — mor amb ella una Barcelona encara no-olímpica, encara metàl·lic-industrial, encara republicana de fet.",
+      ],
+      enllacosInterns: [
+        { id: "timeline", etiqueta: "Cronologia del moviment" },
+        { id: "fonts", etiqueta: "Fonts documentals" },
+      ],
+      enllacosExterns: [
+        {
+          url: "https://ca.wikipedia.org/wiki/Transici%C3%B3_espanyola",
+          etiqueta: "Transició espanyola",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Franquisme",
+          etiqueta: "Franquisme (1939–1975)",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Llei_de_Premsa_i_Imprenta_de_1966",
+          etiqueta: "Llei Fraga de Premsa (1966)",
+          font: "Viquipèdia",
+        },
+      ],
+    },
+    {
+      id: "nova-canco",
+      titol: "El substrat: la Nova Cançó i el seu llegat",
+      kicker: "Precedent",
+      icona: "music",
+      paragrafs: [
+        "Sense la Nova Cançó, no hi ha Ona Laietana. La Nova Cançó neix al voltant de 1959-1961 amb els Setze Jutges (Mompel, Raimon, i els altres) i la constitució d'Edigsa el 29 de maig de 1961. És la primera vegada des del 1939 que el català entra a la indústria discogràfica — i la primera vegada que una generació de joves canta en català a cases i ateneus, abans que als escenaris públics.",
+        "Per als músics que onze anys després formarien la ona laietana, la Nova Cançó és tant una impossibilitat com una herència. Una impossibilitat: el model de cantautor amb guitarra acústica els queda estret. Una herència: el català com a llengua de cançó moderna, Edigsa com a segell disponible, el circuit d'ateneus i festivals com a teixit. Sense «L'estaca» de Llach (1968) o «Al vent» de Raimon, sense Serrat i la seva polèmica abstenció a Eurovisió (1968), el públic que el 1975 ompliria Canet Rock no hauria existit.",
+        "Maria del Mar Bonet és el cas paradigmàtic de trànsit entre els dos universos: provinent de la Nova Cançó balear, electritza el seu disc Maria del Mar (1974) amb l'acompanyament de l'Orquestra Mirasol i converteix la frontera en pont. Lluís Llach i Raimon, encara que no pertanyin estrictament a la ona, comparteixen públic, segell i, sobretot, un cert horitzó d'esperança política que el 1975 ja comença a fer-se realitat.",
+      ],
+      enllacosInterns: [
+        { id: "edigsa", etiqueta: "Edigsa — el segell de la Nova Cançó" },
+        { id: "artistes", etiqueta: "Grups i bandes laietanes" },
+        { id: "grafo-relacions", etiqueta: "Veure relacions entre artistes" },
+      ],
+      enllacosExterns: [
+        {
+          url: "https://ca.wikipedia.org/wiki/Nova_Can%C3%A7%C3%B3",
+          etiqueta: "Nova Cançó",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Els_Setze_Jutges",
+          etiqueta: "Els Setze Jutges",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Llu%C3%ADs_Llach",
+          etiqueta: "Lluís Llach",
+          font: "Viquipèdia",
+        },
+      ],
+    },
+    {
+      id: "grup-de-folk",
+      titol: "El Grup de Folk: la tribu primigènia",
+      kicker: "Precedent",
+      icona: "users",
+      paragrafs: [
+        "El Grup de Folk (1968-1972) és el vertigen psiquiàtric-catalanista de l'Ona: una tribu d'adolescents i vintians — Sisa, Pau Riba, Ovidi Montllor, Oriol Tramvia, Carles Flavià, Josep Maria Carandina, Anna Maria Camps — que van voler fer freak folk en català. Els seus models eren Dylan, Donovan i el freak folk californià dels Love i els Jefferson Airplane; els seus escenaris, els happenings multitudinaris al Parc de la Ciutadella; la seva estètica, el catalanisme alternatiu que la Nova Cançó no havia gosat encara.",
+        "La importància del Grup de Folk no rau en la seva discografia (escassa i sovint inèdita) sinó en haver normalitzat, per primera vegada a l'Espanya franquista, el català com a vehicle de contracultura musical jove. Aquí on Sisa i Pau Riba aprenen l'ofici; on neix el cabaret galàctic i la provocació poètica que més endavant caracteritzarà la ona. Sense el Grup de Folk no hi hauria hagut públic ni llenguatge per a Zeleste cinc anys més tard.",
+        "La tribu es dissol cap al 1972-1973, just quan Zeleste obre les portes. La continuïtat és biogràfica: Sisa hi actua el primer any; Pau Riba hi edita els seus discs posteriors; Ovidi Montllor hi programa els seus recitals teatralitzats. La tribu primigènia es converteix en el nucli humà del nou ecosistema.",
+      ],
+      enllacosInterns: [
+        { id: "parc-ciutadella", etiqueta: "Parc de la Ciutadella — lloc dels happenings" },
+        { id: "persones", etiqueta: "Persones clau del moviment" },
+        { id: "grafo-relacions", etiqueta: "Veure connexions de Sisa, Riba, Ovidi" },
+      ],
+      enllacosExterns: [
+        {
+          url: "https://ca.wikipedia.org/wiki/Grup_de_Folk",
+          etiqueta: "Grup de Folk",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Jaume_Sisa",
+          etiqueta: "Jaume Sisa",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Pau_Riba",
+          etiqueta: "Pau Riba",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Ovidi_Montllor",
+          etiqueta: "Ovidi Montllor",
+          font: "Viquipèdia",
+        },
+      ],
+    },
+    {
+      id: "rock-andaluz",
+      titol: "El rock andaluz i les escenes coetànies",
+      kicker: "Coetània",
+      icona: "globe",
+      paragrafs: [
+        "L'Ona laietana no és l'únic intent de fusió rock + tradició autòctona a l'Espanya dels anys setanta. El rock andaluz — Triana (1974), Smash (1969-1979), Tabletom, Guadalquivir, Góngora, Veracruz — és el seu germà sudeny: fusió de rock progresiu amb flamenc i lletres en castellà amb voluntat poètica. El fenomen paral·lel més conegut internacionalment gràcies a la discografia posterior de Paco de Lucía i, molt més tard, de bands com Triana.",
+        "La diferència clau entre els dos moviments rau en l'ecosistema. La ona laietana té un epicentre (Zeleste), un segell (Edigsa) i una xarxa social (la gauche divine) que el rock andaluz no té. Andalusia és geogràficament dispersa; el seu rock es queda sense sala i sense segell propis, i per això acaba publicant a segells majors (Movieplay, CBS) amb criteris més comercials. La ona, en canvi, manté una coherència estètica i industrial que el rock andaluz no aconsegueix.",
+        "Altres escenes coetànies: el rock basc d'Errobi (1973-1979) i el seu llegendari Bolibar; l'escena madrilenya amb Las Grecas, Los Ñuflos i, més tard, la mogida; l'escena valenciana amb Al Tall, que connecta Nova Cançó i experimentació. Cap d'aquestes escenes no tindrà, però, la densitat de relacions ni la coherència mediterrània que definirà la ona laietana.",
+      ],
+      enllacosInterns: [
+        { id: "cartografia", etiqueta: "Cartografia exhaustiva del moviment" },
+        { id: "fusio", etiqueta: "De què està fet el so laietà?" },
+      ],
+      enllacosExterns: [
+        {
+          url: "https://ca.wikipedia.org/wiki/Rock_andaluz",
+          etiqueta: "Rock andaluz",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://es.wikipedia.org/wiki/Triana_(grupo_musical)",
+          etiqueta: "Triana (grup)",
+          font: "Wikipedia",
+        },
+        {
+          url: "https://es.wikipedia.org/wiki/Smash_(banda)",
+          etiqueta: "Smash (banda)",
+          font: "Wikipedia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Errobi",
+          etiqueta: "Errobi (rock basc)",
+          font: "Viquipèdia",
+        },
+      ],
+    },
+    {
+      id: "gauche-divine",
+      titol: "La gauche divine barcelonina",
+      kicker: "Cultura",
+      icona: "theater",
+      paragrafs: [
+        "La gauche divine no és un moviment musical. És la xarxa social que va fer possible l'Ona Laietana. Neix al voltant de la discoteca Bocaccio (carrer Muntaner 505, fundada per Oriol Regàs el 13 de febrer de 1967) i s'estén per la Barcelona burgesa-progressista dels anys seixanta-setanta: arquitectes (Oriol Bohigas, Òscar Tusquets, Lluís Clotet), actors (Teresa Cunillé, Josep Maria Flotats), editors (Jordi Balleste, Carlos Trías), editors discogràfics (Rafael Moll), promotors (Oriol Regàs, Víctor Jou), intel·lectuals (Josep Maria Carandina, Joan Barril), músics (Salvador Boada, Sisa, Pau Riba).",
+        "L'aportació de la gauche divine a la ona és estructural: els seus membres comparteixen taules, projectes, consum cultural i, sobretot, capital social. Víctor Jou — arquitecte de formació, client habitual de Bocaccio — troba en aquesta xarxa el finançament i el públic inicial per a Zeleste. Rafael Moll — director executiu d'Edigsa — hi troba el criteri tècnic i empresarial. Sense la gauche divine, la ona hauria estat un fenomen marginal i efímer; amb ella, esdevé un ecosistema amb programa estable, segell propi i circuit de sales.",
+        "La gauche divine té també una dimensió estètica: la seva Barcelona — la del Gòtic, el Born, Sant Gervasi — és la del disseny gràfic modernista (Massana, Claret), el cafè-teatre (Goya, Saló Torrent de les Flors), la premsa marginal (Els Marges, Destino, Tele/eXprés). És la Barcelona que Joan Barril o Josep Maria Espinàs retratarien en crònica: discreta, sofisticada, paradoxalment lliure sota la dictadura.",
+      ],
+      enllacosInterns: [
+        { id: "bocaccio", etiqueta: "Discoteca Bocaccio (Ruta musical)" },
+        { id: "zeleste", etiqueta: "Sala Zeleste" },
+        { id: "persones", etiqueta: "Víctor Jou, Oriol Regàs, Rafael Moll" },
+      ],
+      enllacosExterns: [
+        {
+          url: "https://es.wikipedia.org/wiki/Bocaccio_(discoteca)",
+          etiqueta: "Discoteca Bocaccio",
+          font: "Wikipedia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Gauche_divine",
+          etiqueta: "Gauche divine",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Josep_Maria_Espin%C3%A0s",
+          etiqueta: "Josep Maria Espinàs",
+          font: "Viquipèdia",
+        },
+      ],
+    },
+    {
+      id: "referents-internacionals",
+      titol: "Els referents internacionals del jazz-rock",
+      kicker: "Internacional",
+      icona: "disc",
+      paragrafs: [
+        "El programa musical de Zeleste reflectí les tendències internacionals —rock progresiu proper al jazz, en la línia de Mahavishnu Orchestra, Soft Machine o Miles Davis i els seus deixebles— però alhora serví com a vehicle d'expressió d'una realitat autòctona. Els referents interns dels músics laietans són, en primer lloc, el jazz-rock elèctric nord-americà i britànic del tombant dels anys setanta.",
+        "Miles Davis és el punt d'inflexió: In a Silent Way (1969) i, sobretot, Bitches Brew (1970) trenquen la frontera entre jazz i rock i obren el camp per a la fusió. John McLaughlin amb la seva Mahavishnu Orchestra (The Inner Mounting Flame, 1971) demostra que la velocitat i el virtuosisme poden coexistir amb la complexitat rítmica. Soft Machine — amb Robert Wyatt, Kevin Ayers i Mike Ratledge — porta el cantorury-rock cap a un so de cançons conceptuals. Weather Report (1970-1986) amb Joe Zawinul i Wayne Shorter, i més tard Jaco Pastorius, redefineix el jazz com a música electrònica-improvisadora.",
+        "Aquestes són les bandes sonores que Max Sunyer i Kitflus d'Iceberg, Joan Albert Amargós de Música Urbana i Fusioon, els membres de Dharma i de la Mirasol escoltaven, traduïen i volien imitar. La diferencia: no els basta amb la imitació. Hi afegeixen la sardana, el flamenc, la bossa, el son cubà, la cançó popular catalana. El resultat és una fusió que no és còpia sinó traducció: una manera mediterrània de fer jazz-rock.",
+        "El prog-rock britànic (Yes, Genesis, King Crimson, Pink Floyd), el Canterbury scene (Caravan, Hatfield and the North) i el krautrock alemany (Can, Faust, Tangerine Dream) també formen part dels referents. Però el model triomfant és el del jazz-rock: el virtuosisme, l'estructura de suite, la improvisació amb base harmònica. És la línia que portarà, més tard, al postlaietanisme de Pegasus (1982-1997) i, indirectament, al jazz-funk de la movida catalana dels anys 80.",
+      ],
+      enllacosInterns: [
+        { id: "fusio", etiqueta: "Ingredients de la fusió laietana" },
+        { id: "artistes", etiqueta: "Bandes i discs clau" },
+        { id: "obres", etiqueta: "Obres clau del moviment" },
+      ],
+      enllacosExterns: [
+        {
+          url: "https://ca.wikipedia.org/wiki/Miles_Davis",
+          etiqueta: "Miles Davis",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Mahavishnu_Orchestra",
+          etiqueta: "Mahavishnu Orchestra",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Soft_Machine",
+          etiqueta: "Soft Machine",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Weather_Report",
+          etiqueta: "Weather Report",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Canterbury_Scene",
+          etiqueta: "Canterbury scene",
+          font: "Viquipèdia",
+        },
+      ],
+    },
+    {
+      id: "substrat-mediterrani",
+      titol: "El substrat mediterrani i autòcton",
+      kicker: "Autòcton",
+      icona: "compass",
+      paragrafs: [
+        "El tret diferencial de la ona laietana respecte als seus models internacionals és el substrat mediterrani. La fusió no es queda en la imitació del jazz-rock nord-americà: hi afegeix sardana, cançó popular, cobla, flamenc, bossa nova, son cubà, i cançó mediterrània. És aquesta mixtura la que converteix una banda com la Companyia Elèctrica Dharma en alguna cosa més que un quartet de jazz-rock: Tramuntana (1977) sona, alhora, com Mahavishnu i com una cobla modernitzada.",
+        "La funció identitària del català és fonamental. El 1975 encara no existeix TV3, no hi ha normalització lingüística als instituts, l'ús públic del català és restringit. Quan Sisa canta «Qualsevol nit pot sortir el sol» en català, no només fa una cançó: fa un acte de normalització cultural. El rock en català no existeix com a indústria abans de la ona; amb la ona neix com a possibilitat. El Rock Català dels anys 90 (Sopa de Cabra, Sau, Els Pets) no hauria existit sense aquest precedent.",
+        "La Mediterrània funciona, per als laietans, no només com a geografia sinó com a programa estètic. Maria del Mar Bonet — balear però barcelonina d'adopció — n'és la figura més coherent: la seva fusió entre cançó popular mallorquina, mil·lès gregues, sardes turques, matisos sefardites i electrificació laietana és, potser, l'expressió més completa d'aquesta utopia mediterrània. El disc Maria del Mar (1974), amb l'acompanyament de l'Orquestra Mirasol, és la prova que la fusió pot ser alhora popular i experimental.",
+      ],
+      enllacosInterns: [
+        { id: "fusio", etiqueta: "De què està fet el so laietà?" },
+        { id: "edigsa", etiqueta: "Edigsa — el segell" },
+        { id: "grafo-relacions", etiqueta: "Veure connexions de Maria del Mar Bonet" },
+      ],
+      enllacosExterns: [
+        {
+          url: "https://ca.wikipedia.org/wiki/Maria_del_Mar_Bonet",
+          etiqueta: "Maria del Mar Bonet",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Sardana",
+          etiqueta: "Sardana",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Cobla",
+          etiqueta: "Cobla",
+          font: "Viquipèdia",
+        },
+        {
+          url: "https://ca.wikipedia.org/wiki/Rock_catal%C3%A0",
+          etiqueta: "Rock català (anys 90)",
+          font: "Viquipèdia",
+        },
+      ],
+    },
+    {
+      id: "zeleste-vehicle",
+      titol: "Zeleste i la sortida professional dels músics",
+      kicker: "Vehicle",
+      icona: "calendar",
+      paragrafs: [
+        "El 23 de maig de 1973, Víctor Jou — arquitecte de formació, client habitual de Bocaccio, nascut a la plaça Reial — inaugura la sala Zeleste al carrer de la Plateria (avui Argenteria), al Born. La sala, dissenyada per Santiago Roqueta en un antic magatzem, no és només un espai: és una empresa. Té programa estable diari, serveis tècnics propis, logística de gira i un segell discogràfic associat (Edigsa). És, en paraules del propi Jou, «la primera empresa cultural autòctona de la Barcelona moderna».",
+        "Aquesta estructura empresarial és el que diferencia la ona laietana de qualsevol altra escena coetània. Sense Zeleste, Sisa hauria sigut un cantautor marginal; Dharma, una banda de província; Iceberg, virtuosos de garatge. Amb Zeleste, cada un d'ells accedeix a un circuit professional, a un segell que els edita i a un públic transversal — burgesia de Bocaccio, joves de la Mina, estudiants d'ESADE, treballadors del Poble Sec — que cap altra sala de l'època reunia.",
+        "La funció de Zeleste com a vehicle d'expressió té dues vessants. En primer lloc, programa estable: jazz, rock, cançó mediterrània, música cubana — una coherència estètica mediterrània que dóna coherència al moviment. En segon lloc, formació professional: els músics de la ona no moren quan el moviment es dissol cap al 1980-1982; nodreixen la nova cançó, la pop dels 80, el flamenco-jazz, els arranjaments de la indústria. Pegasus (1982-1997), el postlaietanisme il·lustrat, n'és hereu directe. La sala sobreviu físicament fins al 1986 en aquesta ubicació; després migrarà a Almogàvers i, més tard, al Poble Espanyol, fins al seu tancament definitiu el 2020.",
+      ],
+      enllacosInterns: [
+        { id: "zeleste", etiqueta: "Sala Zeleste (secció dedicada)" },
+        { id: "ruta-musical", etiqueta: "Ruta musical per Barcelona" },
+        { id: "llegat", etiqueta: "El llegat del moviment" },
+      ],
+      enllacosExterns: [
+        {
+          url: "https://es.wikipedia.org/wiki/Zeleste",
+          etiqueta: "Sala Zeleste",
+          font: "Wikipedia",
+        },
+        {
+          url: "https://www.thenewbarcelonapost.com/en/zeleste-the-musical-refuge-of-70s-barcelona",
+          etiqueta: "Zeleste, the musical refuge of 70s Barcelona",
+          font: "The New Barcelona Post (2023)",
+        },
+        {
+          url: "https://www.rtve.es/noticias/20241101/50-anys-zeleste-documental/16309464.shtml",
+          etiqueta: "50 anys de Zeleste — documental RTVE (2024)",
+          font: "RTVE",
+        },
+      ],
+    },
+  ],
+  // Conserva l'estructura antiga (3 paràgrafs) per compatibilitat
   cos: [
     "L'Ona laietana irromp en un moment històric decisiu, sobretot a nivell polític, a l'Espanya de començaments dels anys setanta: els darrers anys del franquisme i l'inici de la transició.",
     "Creix sobre el substrat de la Nova Cançó i del Grup de Folk, i dialoga amb fenòmens coetanis com el rock andaluz: per a molts artistes el rock es quedava curt com a vehicle d'expressió i calia adoptar altres fórmules. És, en sentit ple, una revolució contracultural barcelonina.",
@@ -2073,6 +2408,7 @@ export const navegacioAgrupada: NavegacioAgrupada = {
       descripcio: "Àlbums, cançons i recopilatoris",
       items: [
         { id: "obres", etiqueta: "Obres clau" },
+        { id: "mosaic", etiqueta: "Mosaic discogràfic" },
         { id: "recopilatori", etiqueta: "Recopilatori" },
       ],
     },
